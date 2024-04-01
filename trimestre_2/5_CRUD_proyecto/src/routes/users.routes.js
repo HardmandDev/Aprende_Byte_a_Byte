@@ -1,27 +1,22 @@
 const { Router } = require("express");
-const pool = require('../db')
+const {
+    getAllUsers,
+    getUserById,
+    createUser,
+    deleteUserById,
+    updateUserById,
+} = require('../controllers/users.controller')
 
 const router = Router();
 
-router.get('/users', async (req, res) => {
-    const result = await pool.query('SELECT * FROM users;')
-    res.json(result.rows[0].name)
-});
+router.get('/users', getAllUsers);
 
-router.get('/users/:id', (req, res) => {
-    res.send('Retornando un solo usuario');
-});
+router.get('/users/:id', getUserById);
 
-router.post('/users', (req, res) => {
-    res.send('Creando un nuevo usuario');
-});
+router.post('/users', createUser);
 
-router.delete('/users', (req, res) => {
-    res.send('Eliminando un usuario');
-});
+router.delete('/users', deleteUserById);
 
-router.put('/users', (req, res) => {
-    res.send('Actualizando un usuario');
-});
+router.put('/users', updateUserById);
 
 module.exports = router;
