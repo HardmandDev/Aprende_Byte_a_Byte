@@ -54,3 +54,8 @@ CREATE TABLE test_results (
     test_result VARCHAR(20),
     test_code_url VARCHAR(255)
   );
+
+
+alter table users rename column name to first_name;
+
+alter table users add column last_name varchar(256)
