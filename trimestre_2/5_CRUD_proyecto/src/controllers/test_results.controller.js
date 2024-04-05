@@ -1,4 +1,4 @@
-const getAllTestResult = async (req, res) => {
+const getAllTestResults = async (req, res) => {
     res.send('Retornando una lista de Test Result');
 }
 
@@ -19,7 +19,7 @@ const updateTestResult = (req, res) => {
 }
 
 module.exports = {
-    getAllTestResult,
+    getAllTestResults,
     getTestResult,
     createTestResult,
     deleteTestResult,
