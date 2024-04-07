@@ -1,6 +1,6 @@
 const pool = require('../db');
 
-const getAllUsers = async (req, res) => {
+const getAllUsers = async (req, res, next) => {
     try {
         const allUsers = await pool.query(
             `SELECT * FROM users 
@@ -8,12 +8,11 @@ const getAllUsers = async (req, res) => {
         );
         res.json(allUsers.rows);
     } catch (error) {
-        console.log(error.message);
-        res.status(500).json({ error: error.message });
+        next(error)
     }
 }
 
-const getUser = async (req, res) => {
+const getUser = async (req, res, next) => {
     try {
         const { id } = req.params;
         const user = await pool.query(
@@ -30,19 +29,18 @@ const getUser = async (req, res) => {
         }
         res.json(user.rows[0]);
     } catch (error) {
-        console.log(error.message)
-        res.status(500).json({ error: error.message });
+        next(error)
     }
 }
 
-const createUser = async (req, res) => {
+const createUser = async (req, res, next) => {
     // Destructuración de req.body
-    const { 
-        first_name, 
-        last_name, 
-        email, 
-        hashed_password, 
-        role 
+    const {
+        first_name,
+        last_name,
+        email,
+        hashed_password,
+        role
     } = req.body;
     try {
         const result = await pool.query(
@@ -54,12 +52,11 @@ const createUser = async (req, res) => {
         )
         res.json(result.rows[0])
     } catch (error) {
-        console.log(error.message)
-        res.status(500).json({ error: error.message })
+        next(error)
     }
 }
 
-const deleteUser = async (req, res) => {
+const deleteUser = async (req, res, next) => {
     try {
         const { id } = req.params;
         const result = await pool.query(
@@ -75,12 +72,11 @@ const deleteUser = async (req, res) => {
         }
         res.sendStatus(204);
     } catch (error) {
-        console.log(error.message)
-        res.status(500).json({ error: error.message });
+        next(error)
     }
 }
 
-const updateUser = async (req, res) => {
+const updateUser = async (req, res, next) => {
     const { id } = req.params;
     const {
         first_name,
@@ -110,8 +106,7 @@ const updateUser = async (req, res) => {
         }
         res.json(result.rows[0])
     } catch (error) {
-        console.log(error.message)
-        res.status(500).json({ error: error.message });
+        next(error)
     }
 }
 

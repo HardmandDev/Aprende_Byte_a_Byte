@@ -1,18 +1,17 @@
 const pool = require('../db');
 
-const getAllTestResults = async (req, res) => {
+const getAllTestResults = async (req, res, next) => {
     try {
         const allTestResults = await pool.query(
             `SELECT * FROM test_results
                 RETUNIRNG *`);
         res.json(allTestResults.rows);
     } catch (error) {
-        console.log(error.message);
-        res.status(500).json({ error: error.message });
+        next(error)
     }
 }
 
-const getTestResult = async (req, res) => {
+const getTestResult = async (req, res, next) => {
     try {
         const { id } = req.params;
         const testResult = await pool.query(
@@ -28,20 +27,19 @@ const getTestResult = async (req, res) => {
         }
         res.json(testResult.rows[0]);
     } catch (error) {
-        console.log(error.message)
-        res.status(500).json({ error: error.message });
+        next(error)
     }
 }
 
-const createTestResult = async (req, res) => {
-    const { 
-        id_user, 
-        id_course, 
-        id_lesson, 
-        test_name, 
-        test_description, 
-        test_result, 
-        test_code_url 
+const createTestResult = async (req, res, next) => {
+    const {
+        id_user,
+        id_course,
+        id_lesson,
+        test_name,
+        test_description,
+        test_result,
+        test_code_url
     } = req.body;
 
     try {
@@ -54,12 +52,11 @@ const createTestResult = async (req, res) => {
         )
         res.json(result.rows[0])
     } catch (error) {
-        console.log(error)
-        res.status(500).json({ error: error.message })
+        next(error)
     }
 }
 
-const deleteTestResult = async (req, res) => {
+const deleteTestResult = async (req, res, next) => {
     try {
         const { id } = req.params;
         const result = await pool.query(
@@ -74,21 +71,20 @@ const deleteTestResult = async (req, res) => {
         }
         res.sendStatus(204);
     } catch (error) {
-        console.log(error.message)
-        res.status(500).json({ error: error.message });
+        next(error)
     }
 }
 
-const updateTestResult = async (req, res) => {
+const updateTestResult = async (req, res, next) => {
     const { id } = req.params;
-    const { 
-        id_user, 
-        id_course, 
-        id_lesson, 
-        test_name, 
-        test_description, 
-        test_result, 
-        test_code_url 
+    const {
+        id_user,
+        id_course,
+        id_lesson,
+        test_name,
+        test_description,
+        test_result,
+        test_code_url
     } = req.body;
 
     try {
@@ -113,8 +109,7 @@ const updateTestResult = async (req, res) => {
         }
         res.json(result.rows[0])
     } catch (error) {
-        console.log(error.message)
-        res.status(500).json({ error: error.message });
+        next(error)
     }
 }
 

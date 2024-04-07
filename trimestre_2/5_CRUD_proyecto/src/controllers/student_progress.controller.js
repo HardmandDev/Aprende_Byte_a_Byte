@@ -1,19 +1,18 @@
 // No creo que sea util usar todos estos metodos para esta tabla
 const pool = require('../db')
 
-const getAllStudentProgress = async (req, res) => {
+const getAllStudentProgress = async (req, res, next) => {
     try {
         const allStudentProgress = await pool.query(
             `SELECT * FROM student_progress
                 RETURNING *`);
         res.json(allStudentProgress.rows);
     } catch (error) {
-        console.log(error.message);
-        res.status(500).json({ error: error.message });
+        next(error)
     }
 }
 
-const getStudentProgress = async (req, res) => {
+const getStudentProgress = async (req, res, next) => {
     try {
         const { id } = req.params;
         const studentProgress = await pool.query(
@@ -29,16 +28,15 @@ const getStudentProgress = async (req, res) => {
         }
         res.json(studentProgress.rows[0]);
     } catch (error) {
-        console.log(error.message)
-        res.status(500).json({ error: error.message });
+        next(error)
     }
 }
 
-const createStudentProgress = async (req, res) => {
-    const { 
-        id_user, 
-        id_course, 
-        id_lesson 
+const createStudentProgress = async (req, res, next) => {
+    const {
+        id_user,
+        id_course,
+        id_lesson
     } = req.body;
 
     try {
@@ -52,13 +50,12 @@ const createStudentProgress = async (req, res) => {
         res.json(result.rows[0])
         console.log(result.rows[0])
     } catch (error) {
-        console.log(error)
-        res.status(500).json({ error: error.message })
+        next(error)
     }
 }
 
 //Creo que debería ejecutarse solo cuando se elimine un usuario, es decir, una reacción en cadena que debe eliminar la información de un usuario
-const deleteStudentProgress = async (req, res) => {
+const deleteStudentProgress = async (req, res, next) => {
     try {
         const { id } = req.params;
         const result = await pool.query(
@@ -73,17 +70,16 @@ const deleteStudentProgress = async (req, res) => {
         }
         res.sendStatus(204);
     } catch (error) {
-        console.log(error.message)
-        res.status(500).json({ error: error.message });
+        next(error)
     }
 }
 
-const updateStudentProgress = async (req, res) => {
+const updateStudentProgress = async (req, res, next) => {
     const { id } = req.params;
-    const { 
-        id_user, 
-        id_course, 
-        id_lesson 
+    const {
+        id_user,
+        id_course,
+        id_lesson
     } = req.body
 
     try {
@@ -103,8 +99,7 @@ const updateStudentProgress = async (req, res) => {
             });
         }
     } catch (error) {
-        console.log(error.message)
-        res.status(500).json({ error: error.message });
+        next(error)
     }
 }
 

@@ -19,9 +19,21 @@ const port = process.env.PORT || 3000;
 app.use(morgan('dev'))
 app.use(express.json())
 
-app.use(userRoutes, codeRoutes, courseRoutes, lessonRoutes, student_progressRoutes, test_resultsRoutes)
+app.use(
+    userRoutes,
+    codeRoutes,
+    courseRoutes,
+    lessonRoutes,
+    student_progressRoutes,
+    test_resultsRoutes
+)
 
-app.get('/', (req, res) => {
+// Error handling middleware
+app.use((err, req, res, next) => {
+    return res.json({ message: err.message })
+})
+
+app.get('/', (req, res, next) => {
     res.json({ message: 'hola' })
 })
 

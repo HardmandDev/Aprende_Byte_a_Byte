@@ -1,6 +1,6 @@
 const pool = require('../db');
 
-const getAllCourses = async (req, res) => {
+const getAllCourses = async (req, res, next) => {
     try {
         const allCourses = await pool.query(
             `SELECT * FROM courses
@@ -8,12 +8,11 @@ const getAllCourses = async (req, res) => {
         );
         res.json(allCourses.rows);
     } catch (error) {
-        console.log(error.message);
-        res.status(500).json({ error: error.message });
+        next(error)
     }
 }
 
-const getCourse = async (req, res) => {
+const getCourse = async (req, res, next) => {
     try {
         const { id } = req.params;
         const course = await pool.query(
@@ -29,17 +28,16 @@ const getCourse = async (req, res) => {
         }
         res.json(course.rows[0]);
     } catch (error) {
-        console.log(error.message)
-        res.status(500).json({ error: error.message });
+        next(error)
     }
 }
 
-const createCourse = async (req, res) => {
-    const { 
-        name, 
-        description, 
-        image_url, 
-        level 
+const createCourse = async (req, res, next) => {
+    const {
+        name,
+        description,
+        image_url,
+        level
     } = req.body
 
     try {
@@ -52,12 +50,11 @@ const createCourse = async (req, res) => {
         )
         res.json(result.rows[0])
     } catch (error) {
-        console.log(error.message)
-        res.status(500).json({ error: error.message })
+        next(error)
     }
 }
 
-const deleteCourse = async (req, res) => {
+const deleteCourse = async (req, res, next) => {
     try {
         const { id } = req.params;
         const result = await pool.query(
@@ -73,18 +70,17 @@ const deleteCourse = async (req, res) => {
         }
         res.sendStatus(204);
     } catch (error) {
-        console.log(error.message)
-        res.status(500).json({ error: error.message });
+        next(error)
     }
 }
 
-const updateCourse = async (req, res) => {
+const updateCourse = async (req, res, next) => {
     const { id } = req.params;
-    const { 
-        name, 
-        description, 
-        image_url, 
-        level 
+    const {
+        name,
+        description,
+        image_url,
+        level
     } = req.body
 
     try {
@@ -103,8 +99,7 @@ const updateCourse = async (req, res) => {
         }
         res.json(result.rows[0])
     } catch (error) {
-        console.log(error.message)
-        res.status(500).json({ error: error.message });
+        next(error)
     }
 }
 

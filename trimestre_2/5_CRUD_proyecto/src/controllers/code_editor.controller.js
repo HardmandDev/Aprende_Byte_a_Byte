@@ -1,6 +1,6 @@
 const pool = require('../db');
 
-const getAllCodeEditor = async (req, res) => {
+const getAllCodeEditor = async (req, res, next) => {
     try {
         const allCodeEditor = await pool.query(
             `SELECT * FROM code_editor
@@ -8,12 +8,11 @@ const getAllCodeEditor = async (req, res) => {
         );
         res.json(allCodeEditor.rows);
     } catch (error) {
-        console.log(error.message);
-        res.status(500).json({ error: error.message });
+        next(error)
     }
 }
 
-const getCodeEditor = async (req, res) => {
+const getCodeEditor = async (req, res, next) => {
     try {
         const { id } = req.params;
         const codeEditor = await pool.query(
@@ -31,17 +30,16 @@ const getCodeEditor = async (req, res) => {
 
         res.json(codeEditor.rows[0]);
     } catch (error) {
-        console.log(error.message)
-        res.status(500).json({ error: error.message });
+        next(error)
     }
 }
 
-const createCodeEditor = async (req, res) => {
-    const { 
-        id_user, 
-        id_course, 
-        id_lesson, 
-        code 
+const createCodeEditor = async (req, res, next) => {
+    const {
+        id_user,
+        id_course,
+        id_lesson,
+        code
     } = req.body;
 
     try {
@@ -54,12 +52,11 @@ const createCodeEditor = async (req, res) => {
         )
         res.status(201).json(result.rows[0])
     } catch (error) {
-        console.log(error.message)
-        res.status(500).json({ error: error.message })
+        next(error)
     }
 }
 
-const deleteCodeEditor = async (req, res) => {
+const deleteCodeEditor = async (req, res, next) => {
     try {
         const { id } = req.params;
         const result = await pool.query(
@@ -74,12 +71,11 @@ const deleteCodeEditor = async (req, res) => {
         }
         res.sendStatus(204);
     } catch (error) {
-        console.log(error.message)
-        res.status(500).json({ error: error.message });
+        next(error)
     }
 }
 
-const updateCodeEditor = async (req, res) => {
+const updateCodeEditor = async (req, res, next) => {
     const { id } = req.params;
     const {
         id_user,
@@ -103,8 +99,7 @@ const updateCodeEditor = async (req, res) => {
         }
         res.json(result.rows[0])
     } catch (error) {
-        console.log(error.message)
-        res.status(500).json({ error: error.message });
+        next(error)
     }
 }
 module.exports = {
