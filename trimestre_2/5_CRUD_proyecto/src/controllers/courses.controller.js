@@ -10,8 +10,18 @@ const getAllCourses = async (req, res) => {
     }
 }
 
-const getCourse = (req, res) => {
-    res.send('Retornando un curso')
+const getCourse = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const course = await pool.query(
+            'SELECT * FROM course WHERE id = $1',
+            [id]
+        );
+        res.json(course.rows[0]);
+    } catch (error) {
+        console.log(error.message)
+        res.status(500).json({ error: error.message });
+    }
 }
 
 const createCourse = async (req, res) => {

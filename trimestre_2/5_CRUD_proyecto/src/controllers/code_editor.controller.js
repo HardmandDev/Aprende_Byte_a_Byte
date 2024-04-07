@@ -10,8 +10,18 @@ const getAllCodeEditor = async (req, res) => {
     }
 }
 
-const getCodeEditor = (req, res) => {
-    res.send('Retornando un solo Editor de Codigo');
+const getCodeEditor = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const codeEditor = await pool.query(
+            'SELECT * FROM codeEditor WHERE id = $1',
+            [id]
+        );
+        res.json(codeEditor.rows[0]);
+    } catch (error) {
+        console.log(error.message)
+        res.status(500).json({ error: error.message });
+    }
 }
 
 const createCodeEditor = async (req, res) => {

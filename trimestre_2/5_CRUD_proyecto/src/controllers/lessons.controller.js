@@ -10,8 +10,18 @@ const getAllLessons = async (req, res) => {
     }
 }
 
-const getLesson = (req, res) => {
-    res.send('Retornando una sola leccion');
+const getLesson = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const lessons = await pool.query(
+            'SELECT * FROM lessons WHERE id = $1',
+            [id]
+        );
+        res.json(lessons.rows[0]);
+    } catch (error) {
+        console.log(error.message)
+        res.status(500).json({ error: error.message });
+    }
 }
 
 const createLesson = async (req, res) => {

@@ -11,8 +11,21 @@ const getAllUsers = async (req, res) => {
     }
 }
 
-const getUser = (req, res) => {
-    res.send('Retornando un solo usuario');
+const getUser = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const user = await pool.query(`SELECT * FROM users WHERE id = $1`, [id]);
+
+        if (user.rows.length === 0) {
+            return res.status(404).json({
+                message: 'Usuario no encontrado'
+            });
+        }
+        res.json(user.rows[0]);
+    } catch (error) {
+        console.log(error.message)
+        res.status(500).json({ error: error.message });
+    }
 }
 
 const createUser = async (req, res) => {
