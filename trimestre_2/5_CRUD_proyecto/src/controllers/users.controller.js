@@ -3,8 +3,7 @@ const pool = require('../db');
 const getAllUsers = async (req, res, next) => {
     try {
         const allUsers = await pool.query(
-            `SELECT * FROM users 
-                RETURNING *`
+            `SELECT * FROM users`
         );
         res.json(allUsers.rows);
     } catch (error) {
@@ -17,8 +16,7 @@ const getUser = async (req, res, next) => {
         const { id } = req.params;
         const user = await pool.query(
             `SELECT * FROM users 
-                WHERE id = $1 
-                RETURNING *`,
+                WHERE id = $1`,
             [id]
         );
 

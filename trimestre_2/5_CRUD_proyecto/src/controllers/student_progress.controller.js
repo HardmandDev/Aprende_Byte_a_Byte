@@ -4,8 +4,7 @@ const pool = require('../db')
 const getAllStudentProgress = async (req, res, next) => {
     try {
         const allStudentProgress = await pool.query(
-            `SELECT * FROM student_progress
-                RETURNING *`);
+            `SELECT * FROM student_progress`);
         res.json(allStudentProgress.rows);
     } catch (error) {
         next(error)
@@ -17,8 +16,7 @@ const getStudentProgress = async (req, res, next) => {
         const { id } = req.params;
         const studentProgress = await pool.query(
             `SELECT * FROM student_progress 
-                WHERE id = $1
-                RETURNING *`,
+                WHERE id = $1`,
             [id]
         );
         if (studentProgress.rows.length === 0) {

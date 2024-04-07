@@ -3,8 +3,7 @@ const pool = require('../db');
 const getAllCodeEditor = async (req, res, next) => {
     try {
         const allCodeEditor = await pool.query(
-            `SELECT * FROM code_editor
-                RETURNING *`
+            `SELECT * FROM code_editor`
         );
         res.json(allCodeEditor.rows);
     } catch (error) {
@@ -17,8 +16,7 @@ const getCodeEditor = async (req, res, next) => {
         const { id } = req.params;
         const codeEditor = await pool.query(
             `SELECT * FROM codeEditor 
-                WHERE id = $1
-                RETURNING *`,
+                WHERE id = $1`,
             [id]
         );
 
