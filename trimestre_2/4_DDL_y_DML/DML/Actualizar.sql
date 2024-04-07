@@ -1,4 +1,4 @@
-select * from users
+
 
 insert into users (first_name,email) values ('Adriana Cecilia','ceciliarodriguez@gmai.com')
 
@@ -11,3 +11,5 @@ update users set last_name = 'Velazquez Triana' where id > 0 and first_name ='Ar
 update users set email = 'harryseveruspotterevans@outlook.com' where id > 0 and first_name ='Harry'
 update users set first_name = 'Valentina' where id > 0 and first_name ='Valentina Mancera'
 update users set last_name = 'Mancera' where id > 0 and first_name ='Valentina'
+
+select email from users
