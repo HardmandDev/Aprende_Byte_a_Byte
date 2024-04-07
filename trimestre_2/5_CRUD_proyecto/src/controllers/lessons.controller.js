@@ -43,8 +43,21 @@ const createLesson = async (req, res) => {
     }
 }
 
-const deleteLesson = (req, res) => {
-    res.send('Eliminando una leccion');
+const deleteLesson = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const result = await pool.query(`DELETE * FROM lessons WHERE id = $1`, [id]);
+
+        if (result.rowCount === 0) {
+            return res.status(404).json({
+                message: 'Lección no encontrado'
+            });
+        }
+        res.sendStatus(204);
+    } catch (error) {
+        console.log(error.message)
+        res.status(500).json({ error: error.message });
+    }
 }
 
 const updateLesson = (req, res) => {

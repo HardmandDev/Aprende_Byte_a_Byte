@@ -43,8 +43,21 @@ const createCourse = async (req, res) => {
     }
 }
 
-const deleteCourse = (req, res) => {
-    res.send('Eliminando un curso')
+const deleteCourse = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const result = await pool.query(`DELETE * FROM courses WHERE id = $1`, [id]);
+
+        if (result.rowCount === 0) {
+            return res.status(404).json({
+                message: 'Curso no encontrado'
+            });
+        }
+        res.sendStatus(204);
+    } catch (error) {
+        console.log(error.message)
+        res.status(500).json({ error: error.message });
+    }
 }
 
 const updateCourse = (req, res) => {

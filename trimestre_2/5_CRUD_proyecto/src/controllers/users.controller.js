@@ -46,8 +46,21 @@ const createUser = async (req, res) => {
     }
 }
 
-const deleteUser = (req, res) => {
-    res.send('Eliminando un usuario');
+const deleteUser = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const result = await pool.query(`DELETE * FROM users WHERE id = $1`, [id]);
+
+        if (result.rowCount === 0) {
+            return res.status(404).json({
+                message: 'Usuario no encontrado'
+            });
+        }
+        res.sendStatus(204);
+    } catch (error) {
+        console.log(error.message)
+        res.status(500).json({ error: error.message });
+    }
 }
 
 const updateUser = (req, res) => {
