@@ -2,7 +2,10 @@ const pool = require('../db');
 
 const getAllCodeEditor = async (req, res) => {
     try {
-        const allCodeEditor = await pool.query('SELECT * FROM code_editor');
+        const allCodeEditor = await pool.query(
+            `SELECT * FROM code_editor
+                RETURNING *`
+        );
         res.json(allCodeEditor.rows);
     } catch (error) {
         console.log(error.message);
@@ -14,9 +17,18 @@ const getCodeEditor = async (req, res) => {
     try {
         const { id } = req.params;
         const codeEditor = await pool.query(
-            'SELECT * FROM codeEditor WHERE id = $1',
+            `SELECT * FROM codeEditor 
+                WHERE id = $1
+                RETURNING *`,
             [id]
         );
+
+        if (codeEditor.rows.length === 0) {
+            return res.status(404).json({
+                message: 'Editor de Codigo no encontrado'
+            });
+        }
+
         res.json(codeEditor.rows[0]);
     } catch (error) {
         console.log(error.message)
@@ -25,7 +37,12 @@ const getCodeEditor = async (req, res) => {
 }
 
 const createCodeEditor = async (req, res) => {
-    const { id_user, id_course, id_lesson, code } = req.body;
+    const { 
+        id_user, 
+        id_course, 
+        id_lesson, 
+        code 
+    } = req.body;
 
     try {
         const result = await pool.query(
@@ -45,11 +62,14 @@ const createCodeEditor = async (req, res) => {
 const deleteCodeEditor = async (req, res) => {
     try {
         const { id } = req.params;
-        const result = await pool.query(`DELETE * FROM code_editor WHERE id = $1`, [id]);
+        const result = await pool.query(
+            `DELETE * FROM code_editor 
+                WHERE id = $1`,
+            [id]);
 
         if (result.rowCount === 0) {
             return res.status(404).json({
-                message: 'Usuario no encontrado'
+                message: 'Editor de Codigo no encontrado'
             });
         }
         res.sendStatus(204);
@@ -59,10 +79,34 @@ const deleteCodeEditor = async (req, res) => {
     }
 }
 
-const updateCodeEditor = (req, res) => {
-    res.send('Actualizando un Editor de Codigo');
-}
+const updateCodeEditor = async (req, res) => {
+    const { id } = req.params;
+    const {
+        id_user,
+        id_course,
+        id_lesson,
+        code
+    } = req.body;
 
+    try {
+        const result = await pool.query(
+            `UPDATE code_editor 
+                SET id_user = $1, id_course = $2, id_lesson = $3, code = $4 
+                WHERE id = $5 
+                RETURNING *`,
+            [id_user, id_course, id_lesson, code, id]
+        );
+        if (result.rows.length === 0) {
+            return res.status(404).json({
+                message: 'Editor de Codigo no encontrado'
+            })
+        }
+        res.json(result.rows[0])
+    } catch (error) {
+        console.log(error.message)
+        res.status(500).json({ error: error.message });
+    }
+}
 module.exports = {
     getAllCodeEditor,
     getCodeEditor,
