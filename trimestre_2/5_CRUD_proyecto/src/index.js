@@ -1,5 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
+const cors = require('cors');
+const helmet = require('helmet');
 
 require('dotenv').config();
 
@@ -11,15 +13,27 @@ const lessonRoutes = require('./routes/lessons.routes');
 const student_progressRoutes = require('./routes/student_progress.routes');
 const test_resultsRoutes = require('./routes/test_results.routes');
 
+const port = process.env.PORT || 3000;
 // Express app initialization
 const app = express();
 
-const port = process.env.PORT || 3000;
+app.use(helmet());
+
+// CORS configuration
+app.use(cors(
+    {
+        origin: 'http://localhost:5173',
+        credentials: true,
+        methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+        allowedHeaders: ['Content-Type', 'Authorization']
+    }
+))
 
 app.use(morgan('dev'))
 app.use(express.json())
 
 app.use(
+    '/api/v1',
     userRoutes,
     codeRoutes,
     courseRoutes,
@@ -31,10 +45,6 @@ app.use(
 // Error handling middleware
 app.use((err, req, res, next) => {
     return res.json({ message: err.message })
-})
-
-app.get('/', (req, res, next) => {
-    res.json({ message: 'hola' })
 })
 
 app.listen(port, () => {
