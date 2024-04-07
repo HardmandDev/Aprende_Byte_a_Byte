@@ -1,13 +1,36 @@
+const pool = require('../db');
+
 const getAllCourses = async (req, res) => {
-    res.send('Retornando lista de cursos')
+    try {
+        const allCourses = await pool.query('SELECT * FROM courses');
+        res.json(allCourses.rows);
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({ error: error.message });
+    }
 }
 
 const getCourse = (req, res) => {
     res.send('Retornando un curso')
 }
 
-const createCourse = (req, res) => {
-    res.send('Creando un curso')
+const createCourse = async (req, res) => {
+    const { name, description, image_url, level } = req.body
+
+    try {
+        const result = await pool.query(
+            `INSERT INTO courses
+                (name, description, image_url, level) 
+                VALUES ($1, $2, $3, $4) 
+                RETURNING *`,
+            [name, description, image_url, level]
+        )
+        res.json(result.rows[0])
+        console.log(result.rows[0]);
+    } catch (error) {
+        console.log(error.message)
+        res.status(500).json({ error: error.message })
+    }
 }
 
 const deleteCourse = (req, res) => {

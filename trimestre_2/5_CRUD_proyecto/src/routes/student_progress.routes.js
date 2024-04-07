@@ -9,14 +9,14 @@ const {
 
 const router = Router();
 
-router.get('/student-progess', getAllStudentProgress);
+router.get('/student-progress', getAllStudentProgress);
 
-router.get('/student-progess/:id', getStudentProgress);
+router.get('/student-progress/:id', getStudentProgress);
 
-router.post('/student-progess', createStudentProgress);
+router.post('/student-progress', createStudentProgress);
 
-router.delete('/student-progess/:id', deleteStudentProgress);
+router.delete('/student-progress/:id', deleteStudentProgress);
 
-router.put('/student-progess/:id', updateStudentProgress);
+router.put('/student-progress/:id', updateStudentProgress);
 
 module.exports = router;

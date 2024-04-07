@@ -1,13 +1,36 @@
+const pool = require('../db');
+
 const getAllUsers = async (req, res) => {
-    res.send('Retornando una lista de usuarios');
+    // Consulta a la base de datos
+    try {
+        const allUsers = await pool.query('SELECT * FROM users');
+        res.json(allUsers.rows);
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({ error: error.message });
+    }
 }
 
 const getUser = (req, res) => {
     res.send('Retornando un solo usuario');
 }
 
-const createUser = (req, res) => {
-    res.send('Creando un nuevo usuario');
+const createUser = async (req, res) => {
+    // Destructuración de req.body
+    const { first_name, last_name, email, password, role } = req.body;
+    try {
+        const result = await pool.query(
+            `INSERT INTO users 
+                (first_name, last_name, email, hashed_password, role) 
+                VALUES ($1, $2, $3, $4, $5)
+                RETURNING *`,
+            [first_name, last_name, email, password, role]
+        )
+        res.json(result.rows[0])
+    } catch (error) {
+        console.log(error.message)
+        res.status(500).json({ error: error.message })
+    }
 }
 
 const deleteUser = (req, res) => {

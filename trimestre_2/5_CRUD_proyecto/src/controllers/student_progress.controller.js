@@ -1,15 +1,37 @@
 // No creo que sea util usar todos estos metodos para esta tabla
+const pool = require('../db')
 
 const getAllStudentProgress = async (req, res) => {
-    res.send('Retornando una lista de progresos de estudiante');
+    try {
+        const allStudentProgress = await pool.query('SELECT * FROM student_progress');
+        res.json(allStudentProgress.rows);
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({ error: error.message });
+    }
 }
 
 const getStudentProgress = (req, res) => {
     res.send('Retornando un solo progreso de estudiante');
 }
 
-const createStudentProgress = (req, res) => {
-    res.send('Creando un nuevo progreso de estudiante');
+const createStudentProgress = async (req, res) => {
+    const { id_user, id_course, id_lesson } = req.body;
+
+    try {
+        const result = await pool.query(
+            `INSERT INTO student_progress 
+                (id_user, id_course, id_lesson)
+                VALUES ($1, $2, $3)
+                RETURNING *`,
+            [id_user, id_course, id_lesson]
+        )
+        res.json(result.rows[0])
+        console.log(result.rows[0])
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ error: error.message })
+    }
 }
 
 const deleteStudentProgress = (req, res) => {
