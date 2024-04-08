@@ -4,7 +4,7 @@ const pool = require('../db')
 const getAllStudentProgress = async (req, res, next) => {
     try {
         const allStudentProgress = await pool.query(
-            `SELECT * FROM student_progress`);
+            `SELECT * FROM "ABB".student_progress`);
         res.json(allStudentProgress.rows);
     } catch (error) {
         next(error)
@@ -15,7 +15,7 @@ const getStudentProgress = async (req, res, next) => {
     try {
         const { id } = req.params;
         const studentProgress = await pool.query(
-            `SELECT * FROM student_progress 
+            `SELECT * FROM "ABB".student_progress 
                 WHERE id = $1`,
             [id]
         );
@@ -38,7 +38,7 @@ const createStudentProgress = async (req, res, next) => {
 
     try {
         const result = await pool.query(
-            `INSERT INTO student_progress 
+            `INSERT INTO "ABB".student_progress 
                 (id_user, id_lesson)
                 VALUES ($1, $2)
                 RETURNING *`,
@@ -56,7 +56,7 @@ const deleteStudentProgress = async (req, res, next) => {
     try {
         const { id } = req.params;
         const result = await pool.query(
-            `DELETE * FROM student_progress 
+            `DELETE * FROM "ABB".student_progress 
                 WHERE id = $1`,
             [id]);
 
@@ -80,7 +80,7 @@ const updateStudentProgress = async (req, res, next) => {
 
     try {
         const result = await pool.query(
-            `UPDATE student_progress 
+            `UPDATE "ABB".student_progress 
                 SET id_user = $1,
                     id_lesson = $2
                 WHERE id = $3

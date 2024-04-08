@@ -3,7 +3,7 @@ const pool = require('../db');
 const getAllCodeEditor = async (req, res, next) => {
     try {
         const allCodeEditor = await pool.query(
-            `SELECT * FROM code_editor`
+            `SELECT * FROM "ABB".code_editor`
         );
         res.json(allCodeEditor.rows);
     } catch (error) {
@@ -41,7 +41,7 @@ const createCodeEditor = async (req, res, next) => {
 
     try {
         const result = await pool.query(
-            `INSERT INTO code_editor 
+            `INSERT INTO "ABB".code_editor 
                 (id_user, id_lesson, code) 
                 VALUES ($1, $2, $3) 
                 RETURNING *`,
@@ -57,7 +57,7 @@ const deleteCodeEditor = async (req, res, next) => {
     try {
         const { id } = req.params;
         const result = await pool.query(
-            `DELETE * FROM code_editor 
+            `DELETE * FROM "ABB".code_editor 
                 WHERE id = $1`,
             [id]);
 
@@ -82,7 +82,7 @@ const updateCodeEditor = async (req, res, next) => {
 
     try {
         const result = await pool.query(
-            `UPDATE code_editor 
+            `UPDATE "ABB".code_editor 
                 SET id_user = $1, 
                     id_lesson = $2, 
                     code = $3
