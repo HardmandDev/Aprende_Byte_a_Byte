@@ -1,12 +1,12 @@
 const { Router } = require('express');
 const router = Router();
 // Import the password controller
-const passwordController = require('../controllers/password.controller');
+const { setPassword, updatePassword } = require('../controllers/password.controller');
 
 // Define the routes for the password controller
-router.post('/reset', passwordController.setPassword);
+router.post('/set/:id', setPassword);
 
-router.put('/update', passwordController.updatePassword);
+router.put('/update/:id', updatePassword);
 
 
 // Export the router
