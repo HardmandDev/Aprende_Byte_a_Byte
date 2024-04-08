@@ -42,7 +42,7 @@ INSERT INTO "ABB".document_types (type) VALUES
 SELECT * FROM "ABB".users;
 -- Agregando un usuario (el password, está en otra tabla):
 INSERT INTO "ABB".users (id_document_type, document, first_name, last_name, email, id_role)
-VALUES (2, '1233899642', 'Armando', 'Estudiante', 'AE@gmail.com', 1)
+VALUES (1, 'unodos', 'Armando', 'Estudiante', 'AE2@gmail.com', 1)
 RETURNING *
 
 ---------------------------------------------------------
@@ -128,3 +128,16 @@ SELECT * FROM "ABB".certifications;
 -- Agregando una certificación:
 INSERT INTO "ABB".certifications (id_user, id_course, id_student_progress)
 VALUES (3, 1, 1)
+
+---------------------------------------------------------
+SELECT * FROM "ABB".certifications;
+SELECT * FROM "ABB".code_editor;
+SELECT * FROM "ABB".courses;
+SELECT * FROM "ABB".document_types;
+SELECT * FROM "ABB".lessons;
+SELECT * FROM "ABB".levels;
+SELECT * FROM "ABB".roles;
+SELECT * FROM "ABB".student_progress;
+SELECT * FROM "ABB".test_results;
+SELECT * FROM "ABB".user_credentials;
+SELECT * FROM "ABB".users;
