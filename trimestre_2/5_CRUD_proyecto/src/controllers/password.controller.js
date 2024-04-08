@@ -25,7 +25,7 @@ const updatePassword = async (req, res, next) => {
         const result = await pool.query(
             `UPDATE "ABB".user_credentials  
             SET password = $1 
-            WHERE id = $2`,
+            WHERE id_user = $2`,
             [password, id]
         );
 
