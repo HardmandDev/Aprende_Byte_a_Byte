@@ -42,15 +42,14 @@ const createUser = async (req, res, next) => {
         first_name,
         last_name,
         email,
-        id_role
     } = req.body;
     try {
         const result = await pool.query(
             `INSERT INTO "ABB".users 
-                (id_document_type, document, first_name, last_name, email, id_role) 
-                VALUES ($1, $2, $3, $4, $5, $6)
+                (id_document_type, document, first_name, last_name, email) 
+                VALUES ($1, $2, $3, $4, $5)
                 RETURNING *`,
-            [id_document_type, document, first_name, last_name, email, id_role]
+            [id_document_type, document, first_name, last_name, email]
         )
         res.json(result.rows[0])
     } catch (error) {
