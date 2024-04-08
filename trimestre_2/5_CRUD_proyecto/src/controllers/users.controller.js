@@ -1,5 +1,6 @@
 const pool = require('../db');
 
+// Get all users
 const getAllUsers = async (req, res, next) => {
     try {
         const allUsers = await pool.query(
@@ -11,6 +12,7 @@ const getAllUsers = async (req, res, next) => {
     }
 }
 
+// Get a user by ID
 const getUser = async (req, res, next) => {
     try {
         const { id } = req.params;
@@ -31,23 +33,23 @@ const getUser = async (req, res, next) => {
     }
 }
 
+// Create a user
 const createUser = async (req, res, next) => {
-    // Destructuración de req.body
+    // Destructuring of req.body
     const {
         id_document_type,
         document,
         first_name,
         last_name,
         email,
-        id_role
     } = req.body;
     try {
         const result = await pool.query(
             `INSERT INTO "ABB".users 
-                (id_document_type, document, first_name, last_name, email, id_role) 
-                VALUES ($1, $2, $3, $4, $5, $6)
+                (id_document_type, document, first_name, last_name, email) 
+                VALUES ($1, $2, $3, $4, $5)
                 RETURNING *`,
-            [id_document_type, document, first_name, last_name, email, id_role]
+            [id_document_type, document, first_name, last_name, email]
         )
         res.json(result.rows[0])
     } catch (error) {
@@ -55,6 +57,7 @@ const createUser = async (req, res, next) => {
     }
 }
 
+// Delete a user by ID
 const deleteUser = async (req, res, next) => {
     try {
         const { id } = req.params;
@@ -75,6 +78,7 @@ const deleteUser = async (req, res, next) => {
     }
 }
 
+// Update a user by ID
 const updateUser = async (req, res, next) => {
     const { id } = req.params;
     const {
