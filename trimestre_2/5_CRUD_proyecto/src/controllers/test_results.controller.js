@@ -32,21 +32,18 @@ const getTestResult = async (req, res, next) => {
 const createTestResult = async (req, res, next) => {
     const {
         id_user,
-        id_course,
         id_lesson,
-        test_name,
-        test_description,
-        test_result,
-        test_code_url
+        code,
+        test
     } = req.body;
 
     try {
         const result = await pool.query(
             `INSERT INTO test_results
-                (id_user, id_course, id_lesson, test_name, test_description, test_result, test_code_url)
-                VALUES ($1, $2, $3, $4, $5, $6, $7)
+                (id_user, id_lesson, code, test)
+                VALUES ($1, $2, $3, $4)
                 RETURNING *`,
-            [id_user, id_course, id_lesson, test_name, test_description, test_result, test_code_url]
+            [id_user, id_lesson, code, test]
         )
         res.json(result.rows[0])
     } catch (error) {
@@ -77,27 +74,21 @@ const updateTestResult = async (req, res, next) => {
     const { id } = req.params;
     const {
         id_user,
-        id_course,
         id_lesson,
-        test_name,
-        test_description,
-        test_result,
-        test_code_url
+        code,
+        test
     } = req.body;
 
     try {
         const result = await pool.query(
             `UPDATE test_results
                 SET id_user = $1,
-                    id_course = $2,
-                    id_lesson = $3,
-                    test_name = $4,
-                    test_description = $5,
-                    test_result = $6,
-                    test_code_url = $7
-                WHERE id = $8
+                    id_lesson = $2,
+                    code = $3,
+                    test = $4
+                WHERE id = $5
                 RETURNING *`,
-            [id_user, id_course, id_lesson, test_name, test_description, test_result, test_code_url, id]
+            [id_user, id_lesson, code, test, id]
         )
 
         if (result.rows.length === 0) {

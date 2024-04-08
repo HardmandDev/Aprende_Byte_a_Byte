@@ -35,7 +35,6 @@ const getCodeEditor = async (req, res, next) => {
 const createCodeEditor = async (req, res, next) => {
     const {
         id_user,
-        id_course,
         id_lesson,
         code
     } = req.body;
@@ -43,10 +42,10 @@ const createCodeEditor = async (req, res, next) => {
     try {
         const result = await pool.query(
             `INSERT INTO code_editor 
-                (id_user, id_course, id_lesson, code) 
-                VALUES ($1, $2, $3, $4) 
+                (id_user, id_lesson, code) 
+                VALUES ($1, $2, $3) 
                 RETURNING *`,
-            [id_user, id_course, id_lesson, code]
+            [id_user, id_lesson, code]
         )
         res.status(201).json(result.rows[0])
     } catch (error) {
@@ -77,7 +76,6 @@ const updateCodeEditor = async (req, res, next) => {
     const { id } = req.params;
     const {
         id_user,
-        id_course,
         id_lesson,
         code
     } = req.body;
@@ -85,10 +83,12 @@ const updateCodeEditor = async (req, res, next) => {
     try {
         const result = await pool.query(
             `UPDATE code_editor 
-                SET id_user = $1, id_course = $2, id_lesson = $3, code = $4 
-                WHERE id = $5 
+                SET id_user = $1, 
+                    id_lesson = $2, 
+                    code = $3
+                WHERE id = $4
                 RETURNING *`,
-            [id_user, id_course, id_lesson, code, id]
+            [id_user, id_lesson, code, id]
         );
         if (result.rows.length === 0) {
             return res.status(404).json({

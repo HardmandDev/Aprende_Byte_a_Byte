@@ -33,17 +33,16 @@ const getStudentProgress = async (req, res, next) => {
 const createStudentProgress = async (req, res, next) => {
     const {
         id_user,
-        id_course,
         id_lesson
     } = req.body;
 
     try {
         const result = await pool.query(
             `INSERT INTO student_progress 
-                (id_user, id_course, id_lesson)
-                VALUES ($1, $2, $3)
+                (id_user, id_lesson)
+                VALUES ($1, $2)
                 RETURNING *`,
-            [id_user, id_course, id_lesson]
+            [id_user, id_lesson]
         )
         res.json(result.rows[0])
         console.log(result.rows[0])
@@ -76,19 +75,17 @@ const updateStudentProgress = async (req, res, next) => {
     const { id } = req.params;
     const {
         id_user,
-        id_course,
         id_lesson
     } = req.body
 
     try {
         const result = await pool.query(
             `UPDATE student_progress 
-                SET id_user = $1, 
-                    id_course = $2, 
-                    id_lesson = $3
-                WHERE id = $4
+                SET id_user = $1,
+                    id_lesson = $2
+                WHERE id = $3
                 RETURNING *`,
-            [id_user, id_course, id_lesson, id]
+            [id_user, id_lesson, id]
         );
 
         if (result.rows.length === 0) {
