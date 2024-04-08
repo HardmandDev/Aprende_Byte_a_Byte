@@ -35,7 +35,6 @@ CREATE TABLE "ABB".users (
   first_name VARCHAR(100), -- Nombre del usuario.
   last_name VARCHAR(100), -- Apellido del usuario.
   email VARCHAR(100) UNIQUE, -- Correo electrónico único del usuario.
-  id_password INT REFERENCES "ABB".user_credentials(id), -- Credencial de acceso del usuario.
   id_role INT REFERENCES "ABB".roles(id) DEFAULT (1), -- Rol asignado al usuario por defecto.
   creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Fecha de creación del usuario.
   CONSTRAINT unique_document_per_type UNIQUE (id_document_type, document) -- Restricción para un documento único por tipo.
@@ -57,8 +56,9 @@ CREATE TABLE "ABB".courses (
     description TEXT, -- Descripción del curso.
     image_url VARCHAR(255), -- URL de la imagen del curso.
     id_level INT REFERENCES "ABB".levels(id), -- Nivel de dificultad del curso.
-    creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Fecha de creación del curso.
+    creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP -- Fecha de creación del curso.
 );
+
 -- Tabla de lecciones: Almacena la información de las lecciones de los cursos.
 CREATE TABLE "ABB".lessons (
   id SERIAL PRIMARY KEY, -- Identificador único de la lección.
@@ -69,6 +69,7 @@ CREATE TABLE "ABB".lessons (
   content TEXT, -- Contenido de la lección.
   creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP -- Fecha de creación de la lección.
 );
+
 -- Tabla de editores de código: Almacena el código escrito por los usuarios en cada lección.
 CREATE TABLE "ABB".code_editor (
   id SERIAL PRIMARY KEY, -- Identificador único del editor.
