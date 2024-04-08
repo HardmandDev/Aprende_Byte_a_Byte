@@ -1,5 +1,6 @@
 const pool = require('../db');
 
+// Get all users
 const getAllUsers = async (req, res, next) => {
     try {
         const allUsers = await pool.query(
@@ -11,6 +12,7 @@ const getAllUsers = async (req, res, next) => {
     }
 }
 
+// Get a user by ID
 const getUser = async (req, res, next) => {
     try {
         const { id } = req.params;
@@ -31,8 +33,9 @@ const getUser = async (req, res, next) => {
     }
 }
 
+// Create a user
 const createUser = async (req, res, next) => {
-    // Destructuración de req.body
+    // Destructuring of req.body
     const {
         id_document_type,
         document,
@@ -55,6 +58,7 @@ const createUser = async (req, res, next) => {
     }
 }
 
+// Delete a user by ID
 const deleteUser = async (req, res, next) => {
     try {
         const { id } = req.params;
@@ -75,6 +79,7 @@ const deleteUser = async (req, res, next) => {
     }
 }
 
+// Update a user by ID
 const updateUser = async (req, res, next) => {
     const { id } = req.params;
     const {
