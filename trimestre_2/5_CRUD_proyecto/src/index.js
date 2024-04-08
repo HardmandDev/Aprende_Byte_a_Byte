@@ -12,6 +12,9 @@ const courseRoutes = require('./routes/courses.routes');
 const lessonRoutes = require('./routes/lessons.routes');
 const student_progressRoutes = require('./routes/student_progress.routes');
 const test_resultsRoutes = require('./routes/test_results.routes');
+const resetRoutes = require('./routes/password.routes');
+
+// Port configuration
 
 const port = process.env.PORT || 3000;
 // Express app initialization
@@ -39,7 +42,8 @@ app.use(
     courseRoutes,
     lessonRoutes,
     student_progressRoutes,
-    test_resultsRoutes
+    test_resultsRoutes,
+    resetRoutes
 )
 
 // Error handling middleware

@@ -3,7 +3,7 @@ const pool = require('../db');
 const getAllLessons = async (req, res, next) => {
     try {
         const allLessons = await pool.query(
-            `SELECT * FROM lessons`);
+            `SELECT * FROM "ABB".lessons`);
         res.json(allLessons.rows);
     } catch (error) {
         next(error)
@@ -13,8 +13,8 @@ const getAllLessons = async (req, res, next) => {
 const getLesson = async (req, res, next) => {
     try {
         const { id } = req.params;
-        const lessons = await pool.query(
-            `SELECT * FROM lessons 
+        const lesson = await pool.query(
+            `SELECT * FROM "ABB".lessons 
                 WHERE id = $1`,
             [id]
         );
@@ -23,7 +23,7 @@ const getLesson = async (req, res, next) => {
                 message: 'Lección no encontrada'
             });
         }
-        res.json(lessons.rows[0]);
+        res.json(lesson.rows[0]);
     } catch (error) {
         next(error)
     }
@@ -32,18 +32,19 @@ const getLesson = async (req, res, next) => {
 const createLesson = async (req, res, next) => {
     const {
         id_course,
-        title,
+        id_author,
+        lesson_order,
+        lesson_name,
         content,
-        lesson_order
     } = req.body;
 
     try {
         const result = await pool.query(
-            `INSERT INTO lessons
+            `INSERT INTO "ABB".lessons
                 (id_course, title, content, lesson_order) 
-                VALUES ($1, $2, $3, $4) 
+                VALUES ($1, $2, $3, $4, $5) 
                 RETURNING *`,
-            [id_course, title, content, lesson_order]
+            [id_course, id_author, lesson_order, lesson_name, content, ]
         )
         res.json(result.rows[0]);
     } catch (error) {
@@ -55,7 +56,7 @@ const deleteLesson = async (req, res, next) => {
     try {
         const { id } = req.params;
         const result = await pool.query(
-            `DELETE * FROM lessons 
+            `DELETE * FROM "ABB".lessons 
                 WHERE id = $1`,
             [id]
         );
@@ -75,18 +76,23 @@ const updateLesson = async (req, res, next) => {
     const { id } = req.params;
     const {
         id_course,
-        title,
+        id_author,
+        lesson_order,
+        lesson_name,
         content,
-        lesson_order
     } = req.body
 
     try {
         const result = await pool.query(
-            `UPDATE lessons
-                SET id_course = $1, title = $2, content = $3, lesson_order = $4
-                WHERE id = $5
+            `UPDATE "ABB".lessons
+                SET id_course = $1, 
+                    id_author = $2, 
+                    lesson_order = $3, 
+                    lesson_name = $4,
+                    content = $5
+                WHERE id = $6
                 RETURNING *`,
-            [id_course, title, content, lesson_order, id]
+            [id_course, id_author, lesson_order, lesson_name, content, id]
         );
 
         if (result.rows.length === 0) {
