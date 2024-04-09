@@ -12,11 +12,15 @@ const courseRoutes = require('./routes/courses.routes');
 const lessonRoutes = require('./routes/lessons.routes');
 const student_progressRoutes = require('./routes/student_progress.routes');
 const test_resultsRoutes = require('./routes/test_results.routes');
+const resetRoutes = require('./routes/password.routes');
 
+// Port configuration
 const port = process.env.PORT || 3000;
+
 // Express app initialization
 const app = express();
 
+// Helmet configuration
 app.use(helmet());
 
 // CORS configuration
@@ -29,9 +33,13 @@ app.use(cors(
     }
 ))
 
+// Morgan configuration
 app.use(morgan('dev'))
+
+// Body parser configuration
 app.use(express.json())
 
+// Routes configuration
 app.use(
     '/api/v1',
     userRoutes,
@@ -39,7 +47,8 @@ app.use(
     courseRoutes,
     lessonRoutes,
     student_progressRoutes,
-    test_resultsRoutes
+    test_resultsRoutes,
+    resetRoutes
 )
 
 // Error handling middleware
@@ -47,6 +56,7 @@ app.use((err, req, res, next) => {
     return res.json({ message: err.message })
 })
 
+// Server initialization
 app.listen(port, () => {
     console.log(`Escuchando servidor desde el puerto: ${port}`)
 })

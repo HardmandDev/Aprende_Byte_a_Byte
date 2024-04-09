@@ -1,5 +1,6 @@
 require('dotenv').config();
 
+// Export the configuration object
 module.exports = {
     db: {
         user: process.env.DB_USER,

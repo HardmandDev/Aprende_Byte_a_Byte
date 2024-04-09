@@ -3,7 +3,7 @@ const pool = require('../db');
 const getAllCodeEditor = async (req, res, next) => {
     try {
         const allCodeEditor = await pool.query(
-            `SELECT * FROM code_editor`
+            `SELECT * FROM "ABB".code_editor`
         );
         res.json(allCodeEditor.rows);
     } catch (error) {
@@ -35,18 +35,17 @@ const getCodeEditor = async (req, res, next) => {
 const createCodeEditor = async (req, res, next) => {
     const {
         id_user,
-        id_course,
         id_lesson,
         code
     } = req.body;
 
     try {
         const result = await pool.query(
-            `INSERT INTO code_editor 
-                (id_user, id_course, id_lesson, code) 
-                VALUES ($1, $2, $3, $4) 
+            `INSERT INTO "ABB".code_editor 
+                (id_user, id_lesson, code) 
+                VALUES ($1, $2, $3) 
                 RETURNING *`,
-            [id_user, id_course, id_lesson, code]
+            [id_user, id_lesson, code]
         )
         res.status(201).json(result.rows[0])
     } catch (error) {
@@ -58,7 +57,7 @@ const deleteCodeEditor = async (req, res, next) => {
     try {
         const { id } = req.params;
         const result = await pool.query(
-            `DELETE * FROM code_editor 
+            `DELETE * FROM "ABB".code_editor 
                 WHERE id = $1`,
             [id]);
 
@@ -77,18 +76,19 @@ const updateCodeEditor = async (req, res, next) => {
     const { id } = req.params;
     const {
         id_user,
-        id_course,
         id_lesson,
         code
     } = req.body;
 
     try {
         const result = await pool.query(
-            `UPDATE code_editor 
-                SET id_user = $1, id_course = $2, id_lesson = $3, code = $4 
-                WHERE id = $5 
+            `UPDATE "ABB".code_editor 
+                SET id_user = $1, 
+                    id_lesson = $2, 
+                    code = $3
+                WHERE id = $4
                 RETURNING *`,
-            [id_user, id_course, id_lesson, code, id]
+            [id_user, id_lesson, code, id]
         );
         if (result.rows.length === 0) {
             return res.status(404).json({

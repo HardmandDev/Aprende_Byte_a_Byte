@@ -5,26 +5,10 @@ CREATE TABLE "ABB".roles (
   creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP -- Fecha de creación del rol.
 );
 
--- Tabla de permisos de roles: Define los permisos asociados a cada rol.
-CREATE TABLE "ABB".role_permissions (
-  id SERIAL PRIMARY KEY, -- Identificador único del permiso.
-  id_role INT REFERENCES "ABB".roles(id), -- Rol al que se asigna el permiso.
-  action text, -- Acción permitida por el permiso.
-  constraint unique_role_action unique (id_role, action) -- Restricción para evitar duplicados.
-);
-
 -- Tabla de tipos de documentos: Almacena los tipos de documentos disponibles.
 CREATE TABLE "ABB".document_types (
   id SERIAL PRIMARY KEY, -- Identificador único del tipo de documento.
   type VARCHAR(5) CHECK (type IN ('cc', 'ti', 'ce', 'ppt', 'pp')) -- Nombre del tipo de documento.
-);
-
--- Tabla de credenciales de usuario: Almacena las credenciales de acceso de los usuarios.
-CREATE TABLE "ABB".user_credentials (
-  id SERIAL PRIMARY KEY, -- Identificador único de la credencial.
-  id_user INT REFERENCES "ABB".users(id), -- Usuario al que pertenece la credencial.
-  password VARCHAR(255) NOT NULL, -- Contraseña encriptada.
-  CONSTRAINT unique_user_credential UNIQUE (id_user) -- Restricción para una sola credencial por usuario.
 );
 
 -- Tabla de usuarios: Almacena la información de los usuarios.
@@ -40,8 +24,15 @@ CREATE TABLE "ABB".users (
   CONSTRAINT unique_document_per_type UNIQUE (id_document_type, document) -- Restricción para un documento único por tipo.
 );
 
---------------------------------------------------------------------------
+-- Tabla de credenciales de usuario: Almacena las credenciales de acceso de los usuarios.
+CREATE TABLE "ABB".user_credentials (
+  id SERIAL PRIMARY KEY, -- Identificador único de la credencial.
+  id_user INT REFERENCES "ABB".users(id), -- Usuario al que pertenece la credencial.
+  password VARCHAR(255) NOT NULL, -- Contraseña encriptada.
+  CONSTRAINT unique_user_credential UNIQUE (id_user) -- Restricción para una sola credencial por usuario.
+);
 
+--------------------------------------------------------------------------
 -- Tabla de niveles de curso: Almacena los niveles de dificultad de los cursos.
 CREATE TABLE "ABB".levels (
   id SERIAL PRIMARY KEY, -- Identificador único del nivel.
@@ -80,20 +71,6 @@ CREATE TABLE "ABB".code_editor (
   CONSTRAINT unique_code_editor UNIQUE (id_user, id_lesson) -- Restricción para un único editor por usuario y lección.
 );
 
--- Tabla de resultados de pruebas: Almacena los resultados de las pruebas realizadas por los usuarios en cada lección.
-CREATE TABLE "ABB".test_results (
-  id SERIAL PRIMARY KEY, -- Identificador único del resultado de prueba.
-  id_user INT REFERENCES "ABB".users(id), -- Usuario que realiza la prueba.
-  id_lesson INT REFERENCES "ABB".lessons(id), -- Lección en la que se realiza la prueba.
-  code TEXT, -- Código de la prueba realizada por el usuario.
-  test VARCHAR(255), -- Descripción de la prueba.
-  test_result BOOLEAN, -- Resultado de la prueba (aprobada o reprobada).
-  creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Fecha de registro del resultado de prueba.
-  CONSTRAINT unique_test_result UNIQUE (id_user, id_lesson) -- Restricción para un único resultado de prueba por usuario y lección.
-);
-
---------------------------------------------------------------------------
-
 -- Tabla de progreso de estudiantes: Almacena el progreso de los estudiantes en cada lección.
 CREATE TABLE "ABB".student_progress (
     id SERIAL PRIMARY KEY, -- Identificador único del progreso.
@@ -102,6 +79,18 @@ CREATE TABLE "ABB".student_progress (
     lesson_approved BOOLEAN DEFAULT FALSE, -- Estado de aprobación de la lección por parte del estudiante.
     creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Fecha de registro del progreso.
     CONSTRAINT unique_course_progress UNIQUE (id_user, id_lesson) -- Restricción para un único registro de progreso por usuario y lección.
+);
+
+-- Tabla de resultados de pruebas: Almacena los resultados de las pruebas realizadas por los usuarios en cada lección.
+CREATE TABLE "ABB".test_results (
+  id SERIAL PRIMARY KEY, -- Identificador único del resultado de prueba.
+  id_user INT REFERENCES "ABB".users(id), -- Usuario que realiza la prueba.
+  id_lesson INT REFERENCES "ABB".lessons(id), -- Lección en la que se realiza la prueba.
+  code TEXT, -- Código de la prueba realizada por el usuario.
+  test VARCHAR(255), -- Descripción de la prueba.
+  test_result BOOLEAN DEFAULT FALSE, -- Resultado de la prueba (aprobada o reprobada).
+  creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Fecha de registro del resultado de prueba.
+  CONSTRAINT unique_test_result UNIQUE (id_user, id_lesson) -- Restricción para un único resultado de prueba por usuario y lección.
 );
 
 -- Tabla de certificaciones: Almacena las certificaciones obtenidas por los usuarios en cada curso.

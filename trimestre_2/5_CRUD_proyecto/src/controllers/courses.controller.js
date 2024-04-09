@@ -3,7 +3,7 @@ const pool = require('../db');
 const getAllCourses = async (req, res, next) => {
     try {
         const allCourses = await pool.query(
-            `SELECT * FROM courses`
+            `SELECT * FROM "ABB".courses`
         );
         res.json(allCourses.rows);
     } catch (error) {
@@ -15,7 +15,7 @@ const getCourse = async (req, res, next) => {
     try {
         const { id } = req.params;
         const course = await pool.query(
-            `SELECT * FROM course 
+            `SELECT * FROM "ABB".courses 
                 WHERE id = $1`,
             [id]
         );
@@ -32,19 +32,20 @@ const getCourse = async (req, res, next) => {
 
 const createCourse = async (req, res, next) => {
     const {
-        name,
+        id_author,
+        course_name,
         description,
         image_url,
-        level
+        id_level
     } = req.body
 
     try {
         const result = await pool.query(
-            `INSERT INTO courses
-                (name, description, image_url, level) 
-                VALUES ($1, $2, $3, $4) 
+            `INSERT INTO "ABB".courses
+                (id_author, course_name, description, image_url, id_level) 
+                VALUES ($1, $2, $3, $4, $5) 
                 RETURNING *`,
-            [name, description, image_url, level]
+            [id_author, course_name, description, image_url, id_level]
         )
         res.json(result.rows[0])
     } catch (error) {
@@ -56,7 +57,7 @@ const deleteCourse = async (req, res, next) => {
     try {
         const { id } = req.params;
         const result = await pool.query(
-            `DELETE * FROM courses 
+            `DELETE * FROM "ABB".courses 
                 WHERE id = $1`,
             [id]
         );
@@ -75,19 +76,24 @@ const deleteCourse = async (req, res, next) => {
 const updateCourse = async (req, res, next) => {
     const { id } = req.params;
     const {
-        name,
+        id_author,
+        course_name,
         description,
         image_url,
-        level
+        id_level
     } = req.body
 
     try {
         const result = await pool.query(
-            `UPDATE courses 
-                SET name = $1, description = $2, image_url = $3, level = $4 
-                WHERE id = $5 
+            `UPDATE "ABB".courses 
+                SET id_author = $1, 
+                    course_name = $2, 
+                    description = $3, 
+                    image_url = $4, 
+                    id_level = $5
+                WHERE id = $6
                 RETURNING *`,
-            [name, description, image_url, level, id]
+            [id_author, course_name, description, image_url, id_level, id]
         )
 
         if (result.rows.length === 0) {
