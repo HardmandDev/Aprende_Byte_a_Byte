@@ -38,6 +38,7 @@ app.use(morgan('dev'))
 
 // Body parser configuration
 app.use(express.json())
+app.use(express.urlencoded({ extended: false }))
 
 // Routes configuration
 app.use(
