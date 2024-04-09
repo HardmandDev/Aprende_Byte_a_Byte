@@ -1,0 +1,3 @@
+insert into courses(name,description,level) values('Fundamentos de linux','Fundamentos de terminal y linea de comandos','principiante')
+
+update courses set image_url = 'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.adslzone.net%2Freportajes%2Fsoftware%2Fque-es-linux%2F&psig=AOvVaw3Xf7t0qLtK8Xvv_Fvq8E9P&ust=1712619262200000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCOiuyImisYUDFQAAAAAdAAAAABAE' where id = 5
