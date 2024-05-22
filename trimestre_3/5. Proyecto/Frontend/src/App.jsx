@@ -1,10 +1,22 @@
-import './App.css'
+import { Routes, Route } from 'react-router-dom';
+
+import Header from './components/Header';
+import Footer from './components/Footer';
+
+import Home from './pages/Home'
+import Profile from './pages/Profile'
+
 
 function App() {
 
   return (
     <>
-      <h1 className='text-3xl font-bold text-center mt-10'>Aprende Byte a Byte</h1>
+      <Header />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/profile" element={<Profile />} />
+      </Routes>
+      <Footer />
     </>
   )
 }
