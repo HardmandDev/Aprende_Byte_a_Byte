@@ -12,6 +12,7 @@ Currently, two official plugins are available:
 └── 📁Frontend
     └── .eslintrc.cjs
     └── .gitignore
+    └── components.json
     └── index.html
     └── package-lock.json
     └── package.json
@@ -44,11 +45,15 @@ Currently, two official plugins are available:
                 └── Index.jsx
                 └── Login.jsx
                 └── SignUp.jsx
+            └── 📁ui
+                └── button.jsx
         └── 📁context
             └── AuthContext.jsx
         └── 📁hooks
             └── useAuth.js
         └── index.css
+        └── 📁lib
+            └── utils.js
         └── main.jsx
         └── 📁pages
             └── Home.jsx
@@ -62,5 +67,6 @@ Currently, two official plugins are available:
         └── 📁utils
             └── helpers.js
     └── tailwind.config.js
+    └── tsconfig.json
     └── vite.config.js
 ```

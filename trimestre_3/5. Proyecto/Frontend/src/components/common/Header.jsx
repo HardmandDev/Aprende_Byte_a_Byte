@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { Button } from "@/components/ui/button"
 
 function Header() {
   return (
@@ -19,8 +20,8 @@ function Header() {
             </Link>
           </li>
           <li>
-            <Link to="/contact" className="hover:text-gray-400">
-              Contact
+            <Link to="/login" className="hover:text-gray-400">
+              <Button> Login </Button>
             </Link>
           </li>
         </ul>
