@@ -75,7 +75,7 @@ export default function SignUp() {
         </div>
         <div className="mt-4 text-center text-sm">
           ¿Ya tienes una cuenta? <br/>
-          <Link href="#" className="underline">
+          <Link to="http://localhost:5173/login" className="underline">
            inicia sesion
           </Link>
          
