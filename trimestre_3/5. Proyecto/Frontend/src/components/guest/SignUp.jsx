@@ -76,7 +76,7 @@ export default function SignUp() {
         <div className="mt-4 text-center text-sm">
           ¿Ya tienes una cuenta? <br/>
           <Link href="#" className="underline">
-           iniciar sesion
+           inicia sesion
           </Link>
          
         </div>
