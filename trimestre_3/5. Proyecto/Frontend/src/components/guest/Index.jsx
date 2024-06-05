@@ -16,7 +16,7 @@ export function Index() {
                     <h1 className="text-center-3">
                         Acelere su viaje en desarollo a traves de cursos, proyectos y codigos. Totalmente gratis.
                     </h1>
-                    <Button variant="defIndex" className="button-index-1" >
+                    <Button variant="default" className="button-index-1" >
                         Empezar a aprender
                     </Button>
                     <Button variant="outline" className="button-index-2" >
