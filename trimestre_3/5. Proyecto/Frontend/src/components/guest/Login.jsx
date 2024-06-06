@@ -16,6 +16,7 @@ export default function Login() {
     try {
       const response = await axios.post("https://jp9dtqt5-3001.use2.devtunnels.ms/api/v1/login", formData);
       console.log(response.data);
+      alert("Ya se ha iniciado sesión")
       // Navegar a otra ruta después del inicio de sesión exitoso, si es necesario
       // navigate('/dashboard');
     } catch (error) {
