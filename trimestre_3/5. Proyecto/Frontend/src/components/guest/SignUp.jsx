@@ -30,7 +30,7 @@ export default function SignUp() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("URL_DEL_ENDPOINT", formData);
+      const response = await axios.post("https://jp9dtqt5-3001.use2.devtunnels.ms/api/v1/sign-up", formData);
       console.log(response.data);
     } catch (error) {
       console.error("Error al enviar los datos:", error);
