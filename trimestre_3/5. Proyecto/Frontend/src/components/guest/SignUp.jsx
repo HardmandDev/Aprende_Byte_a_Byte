@@ -32,6 +32,7 @@ export default function SignUp() {
     try {
       const response = await axios.post("https://jp9dtqt5-3001.use2.devtunnels.ms/api/v1/sign-up", formData);
       console.log(response.data);
+      alert("La cuenta se creó exitosamente")
     } catch (error) {
       console.error("Error al enviar los datos:", error);
     }
