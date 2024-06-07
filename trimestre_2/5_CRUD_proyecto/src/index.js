@@ -2,6 +2,7 @@ const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
 const helmet = require('helmet');
+const { check } = require('express-validator');
 
 require('dotenv').config();
 
@@ -13,6 +14,10 @@ const lessonRoutes = require('./routes/lessons.routes');
 const student_progressRoutes = require('./routes/student_progress.routes');
 const test_resultsRoutes = require('./routes/test_results.routes');
 const resetRoutes = require('./routes/password.routes');
+const sign_upRoutes = require('./routes/sign_up.routes');
+const loginRoutes = require('./routes/log_in.routes');
+
+
 
 // Port configuration
 const port = process.env.PORT || 3000;
@@ -39,6 +44,7 @@ app.use(morgan('dev'))
 // Body parser configuration
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
+app.use(check());
 
 // Routes configuration
 app.use(
@@ -49,7 +55,9 @@ app.use(
     lessonRoutes,
     student_progressRoutes,
     test_resultsRoutes,
-    resetRoutes
+    resetRoutes, 
+    sign_upRoutes,
+    loginRoutes
 )
 
 // Error handling middleware
