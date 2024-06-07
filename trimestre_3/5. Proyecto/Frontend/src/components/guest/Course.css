@@ -16,23 +16,25 @@
     font-size: 100px;
     font-weight: 'bold';
     margin-left: 150px;
-    top: -400px;
+    top: -450px;
     position: relative;
 }
-    
 
+.container-2 {
+    display: grid;
+    justify-content: start;
+    align-items: center;
 
+}
 
 .text-style-2 {
-    color: hsl(0, 0%, 3%);
     background: linear-gradient(to right,  #FFB74E,  #FF9472);
     background-clip: text;
     -webkit-text-fill-color: transparent;
     line-height: 0.3;
     font-size: 100px;
-    top: -400px;
+    top: -450px;
     position: relative;
-    display: grid;
     margin-left: 100px;
     height: 100vh;
 }
@@ -43,33 +45,39 @@
     height: '500px';
 }
 .parrafo{
-    position: fixed;
-    left:10px;
-    bottom: 200px;
-    margin-left: 120px;
+    font-weight: 'bold';
+    margin-left: 150px;
+    top: -1050px;
+    position: relative;
 }
 
+
 .button {
-    position: fixed;
+    position: relative;
     left:10px;
-    bottom: 50px;
-    margin-left: 1045px;
+    margin-left: 860px;
+    top: 60px;
+    width: 480px;
 }
 
 .text1 {
-    display: flex;
-    justify-content: space-around; /* Espacia los elementos horizontalmente */
-    align-items: center; /* Alinea los elementos verticalmente */
-    margin: 20px; /* Espaciado alrededor del contenedor */
+  font-weight: 'bold';
+  margin-left: 100px;
+  top: -1000px;
+  position: relative;
   }
   
 .text2 {
-    display: flex;
-    align-items: center; /* Alinea el ícono y el texto verticalmente */
-    gap: 8px; /* Espacio entre el ícono y el texto */
+  font-weight: 'bold';
+  margin-left: 260px;
+  top: -1023px;
+  position: relative;
   }
   
 .text3 {
-    font-size: 24px; /* Tamaño del ícono */
+  font-weight: 'bold';
+  margin-left: 525px;
+  top: -1047px;
+  position: relative;
   }
   

@@ -37,11 +37,13 @@ const Course = () => {
       <article>
         <div className="container">
           <img src="https://github.com/HardmandDev/Aprende_Byte_a_Byte/blob/Course/trimestre_3/5.%20Proyecto/Frontend/src/components/guest/images/JavaScript.png?raw=true" lazy="loading" alt="Images" className="centered-image" />
+        </div>
 
-          <Button className="button">Empezar Curso</Button>
+        <div>
+        <Button className="button">Empezar Curso</Button>
         </div>
         
-        <div> 
+        <div className='container-2'> 
           <strong className="text-style">Aprende</strong>
           <strong className="text-style-2"><br/>JavaScript</strong>
           <p className='parrafo' >Curso intensivo de 3 semanas para aprender a codificar y <br/> convertirse en un experto en JavaScript, una base fundamental <br/> para el desarrollo web. No se necesita experiencia.</p>
