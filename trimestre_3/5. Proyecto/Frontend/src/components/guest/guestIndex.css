@@ -1,0 +1,48 @@
+.index-box{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-left: 20px;
+}
+.container-header{
+    flex: 1;
+    margin-top: 10px;
+}
+
+.text-center-1{
+    font-size: 80px;
+    display: flex;
+    align-items: center;
+}
+
+.text-center-2{
+    font-size: 80px;
+    background: linear-gradient(to right, #ff9966, #ff5e62); 
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.text-center-3{
+    font-size: large;
+    margin-top: 10px;
+}
+
+.button-index-1 {
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.button-index-2 {
+    margin-left: 10px;
+}
+
+.container-aside {
+    margin-top: 50px;
+    width: 100%;
+}
+
+.text-center-1,
+.text-center-2,
+.text-center-3 {
+    line-height: 1.2; 
+}
