@@ -5,11 +5,11 @@ import Footer from './components/common/Footer';
 
 import Index from './components/guest/Index';
 import Profile from './pages/Profile'
-import Login from "./components/guest/Login";
+import Login from './components/guest/Login';
 import SignUp from './components/guest/SignUp';
 import Courses from './components/guest/Courses';
 import Course from './components/guest/Course';
-
+import HomeSt from './components/student/HomeSt';
 
 function App() {
 
@@ -23,6 +23,7 @@ function App() {
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/courses" element={<Courses />} />
         <Route path="/courses/js" element={<Course />} />
+        <Route path="/homeSt" element={<HomeSt />} />
       </Routes>
       <Footer />
     </>
