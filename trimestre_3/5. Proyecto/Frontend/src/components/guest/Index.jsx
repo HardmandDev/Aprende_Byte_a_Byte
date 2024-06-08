@@ -12,7 +12,7 @@ export function Index() {
                     </strong>
                     <strong className="text-center-2">
                         aprenden a programar
-                        </strong>
+                    </strong>
                     <h1 className="text-center-3">
                         Acelere su viaje en desarollo a traves de cursos, proyectos y codigos. Totalmente gratis.
                     </h1>
