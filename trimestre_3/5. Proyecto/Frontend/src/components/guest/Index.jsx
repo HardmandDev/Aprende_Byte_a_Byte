@@ -1,8 +1,7 @@
-import React from "react"
 import { Button } from "@/components/ui/button"
 import "./guestIndex.css"
 
-export function Index() {
+export default function Index() {
     return (
         <article className="index-box">
             <header className="container-header">
@@ -30,5 +29,3 @@ export function Index() {
         </article>
     )
 }
-
-export default Index

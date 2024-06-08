@@ -3,9 +3,9 @@ import { Routes, Route } from 'react-router-dom';
 import Header from './components/common/Header';
 import Footer from './components/common/Footer';
 
-import Home from './pages/Home'
+import Index from './components/guest/Index';
 import Profile from './pages/Profile'
-import { Index } from './components/guest/Index';
+import SignUp from './components/guest/SignUp';
 
 
 function App() {
@@ -14,9 +14,9 @@ function App() {
     <>
       <Header />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Index />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/index" element={<Index />} />
+        <Route path="/sign-up" element={<SignUp />} />
       </Routes>
       <Footer />
     </>
