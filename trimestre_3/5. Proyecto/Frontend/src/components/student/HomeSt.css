@@ -4,13 +4,41 @@
 
 .container-home{
     width: 300px;
-    height: 45px;
+    height: 38px;
     position: sticky;
 }
 
-
-
-
 .image-logo{
-    height: 200px;
+    height: 100px;
+}
+
+.text-course{
+    line-height: 5;
+}
+
+.container-welcome{
+    position: absolute;
+    top: 100px;
+    left: 350px;
+}
+
+.text-welcome, .text-welcome-2 {
+    font-size: 50px;
+}
+
+.text-welcome-2{
+    background: linear-gradient(to right, #ff9966, #ff5e62); 
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.container-course{
+    padding: 20px;
+    margin-top: 35px;
+    line-height: 2.5;
+    font-size: 18px;
+    background-color: antiquewhite;
+    border-radius: 10px;
+    border-color: gray;
+    border-width: 1px;
 }
