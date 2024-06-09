@@ -1,7 +1,14 @@
 import React from 'react';
 import 'tailwindcss/tailwind.css';
+// import Editor from '@monaco-editor/react'
+const Lesson = () => {
 
-const App = () => {
+
+
+
+
+
+
   return (
     <div className="h-screen flex flex-col">
       <header className="bg-blue-600 text-white p-4 flex justify-between items-center">
@@ -49,7 +56,7 @@ const App = () => {
         </main>
       </div>
     </div>
-  );
+  )
 };
 
-export default App;
+export default Lesson;
