@@ -8,7 +8,7 @@ export default function HomeSt() {
   return (
     <article>
       <header className="scrollArea-container">
-        <ScrollArea className="h-[600px] w-[300px] rounded-md border p-7" style={{borderColor:'gray'}}>
+        <ScrollArea className="h-[780px] w-[300px] rounded-md border p-7" style={{borderColor:'gray'}}>
           <div className="flex justify-center items-center mb-4">
             <img src="src/assets/APRENDE-removebg-preview.png" alt="Logo" className="image-logo"/>
           </div>
@@ -33,7 +33,7 @@ export default function HomeSt() {
 
       </header>
       <div className="container-welcome">
-        <ScrollArea className="h-[500px] w-[1000px] ">
+        <ScrollArea className="h-[500px] w-[500px] ">
           <strong className="text-welcome">
             Bienvenido, 
           </strong>
