@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 
 export default function HomeSt() {
   return (
-    <article>
+    <article className="tab-container">
       <header className="scrollArea-container">
         <ScrollArea className="h-[780px] w-[300px] rounded-md border p-7" style={{borderColor:'gray'}}>
           <div className="flex justify-center items-center mb-4">
@@ -33,7 +33,7 @@ export default function HomeSt() {
 
       </header>
       <div className="container-welcome">
-        <ScrollArea className="h-[500px] w-[500px] ">
+        <ScrollArea className="h-[500px] w-[500px] tab-content">
           <strong className="text-welcome">
             Bienvenido, 
           </strong>
