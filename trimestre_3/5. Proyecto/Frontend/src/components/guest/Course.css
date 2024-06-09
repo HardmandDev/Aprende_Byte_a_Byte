@@ -5,7 +5,7 @@
   }
   
   .centered-image {
-    max-width: 500%;
+    max-width: 35%;
     position: relative;
     margin-left: 700px;
     top: 50px;  
@@ -43,6 +43,7 @@
 .image-style {
     width: '600px';
     height: '500px';
+    
 }
 .parrafo{
     font-weight: 'bold';

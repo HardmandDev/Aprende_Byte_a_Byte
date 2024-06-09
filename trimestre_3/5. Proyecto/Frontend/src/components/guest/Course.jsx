@@ -21,7 +21,7 @@ const Course = () => {
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbLink href="/components">Componente</BreadcrumbLink>
+            <BreadcrumbLink href="/components">Profile</BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
@@ -36,7 +36,7 @@ const Course = () => {
 
       <article>
         <div className="container">
-          <img src="https://github.com/HardmandDev/Aprende_Byte_a_Byte/blob/Course/trimestre_3/5.%20Proyecto/Frontend/src/components/guest/images/JavaScript.png?raw=true" lazy="loading" alt="Images" className="centered-image" />
+          <img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png" lazy="loading" alt="Images" className="centered-image" />
         </div>
 
         <div>
