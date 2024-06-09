@@ -4,12 +4,12 @@ import Header from './components/common/Header';
 import Footer from './components/common/Footer';
 
 import Index from './components/guest/Index';
-import Profile from './pages/Profile'
+import Profile from './pages/Profile';
 import Login from "./components/guest/Login";
 import SignUp from './components/guest/SignUp';
 import Courses from './components/guest/Courses';
 import Course from './components/guest/Course';
-// import {Lesson} from './src/pages/Lesson'
+import Lesson from './pages/Lesson';
 
 
 function App() {
@@ -24,7 +24,8 @@ function App() {
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/courses" element={<Courses />} />
         <Route path="/courses/js" element={<Course />} />
-        {/* <Route path="/courses/js/lesson" element={<Lesson />} /> */}
+        <Route path="/lesson" element={<Lesson />} />
+
         
       </Routes>
       <Footer />
