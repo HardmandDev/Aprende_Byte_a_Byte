@@ -33,13 +33,19 @@ export default function HomeSt() {
 
       </header>
       <div className="container-welcome">
-        <ScrollArea className="h-[500px] w-[500px] tab-content">
+        <ScrollArea className="h-[800px] w-[500px] tab-content">
+
           <strong className="text-welcome">
             Bienvenido, 
           </strong>
           <strong className="text-welcome-2">
             (Usuario)!
           </strong>
+
+          <div className="text-welcome-3">
+            VOLVER A ENTRAR
+          </div>
+
           <div className="container-course">
             <strong>Conceptos Básicos</strong>
             <h2>Progreso del módulo:</h2>
