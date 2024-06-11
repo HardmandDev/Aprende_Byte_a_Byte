@@ -9,6 +9,7 @@ import Login from "./components/guest/Login";
 import SignUp from './components/guest/SignUp';
 import Courses from './components/guest/Courses';
 import Course from './components/guest/Course';
+import SupportTable from './components/auth/support/SupporTable';
 
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/courses" element={<Courses />} />
         <Route path="/courses/js" element={<Course />} />
+        <Route path="/support-table" element={<SupportTable />} />
       </Routes>
       <Footer />
     </>
