@@ -27,24 +27,31 @@ const updateUser = async (req, res) => {
         const { id } = req.params;
         const { role_id, email, password } = req.body;
 
-        // Hash de la nueva contraseña si se proporciona
-        let hashedPassword;
+        // Obtain the current user
+        const user = await userModel.getUserById(id);
+
+        // Update the user's fields with the values from the request body
+        if (role_id) {
+            user.role_id = role_id;
+        }
+        if (email) {
+            user.email = email;
+        }
         if (password) {
-            hashedPassword = await bcrypt.hash(password, 10);
+            // Hash the password before updating
+            user.password = await bcrypt.hash(password, 10);
         }
 
-        // Actualizar usuario
-        const updatedUser = await userModel.updateUser(id, {
-            role_id,
-            email,
-            password: hashedPassword // Aquí pasamos la nueva contraseña hasheada
-        });
+        // Update the user in the database
+        const updatedUser = await userModel.updateUser(id, user, password);
 
         res.status(200).json(updatedUser);
     } catch (error) {
         res.status(500).json({ error: 'Error updating user', details: error.message });
     }
 };
+
+
 
 module.exports = {
     createUser,

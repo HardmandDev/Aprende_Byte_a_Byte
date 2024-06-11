@@ -58,17 +58,19 @@ const updateUser = async (userId, userData) => {
     try {
         await client.query('BEGIN');
 
-        // Actualizar el rol en la tabla 'users'
+        // Update the role in the 'users' table
         await client.query(
             `UPDATE users SET role_id = $1, email = $2 WHERE id = $3`,
             [role_id, email, userId]
         );
 
-        // Actualizar la contraseña en la tabla 'user_credentials'
-        await client.query(
-            `UPDATE user_credentials SET password = $1 WHERE user_id = $2`,
-            [password, userId] // Aquí pasamos la nueva contraseña ya hasheada
-        );
+        // Update the password in the 'user_credentials' table
+        if (password) { // Only update if a new password is provided
+            await client.query(
+                `UPDATE user_credentials SET password = $1 WHERE user_id = $2`,
+                [password, userId] // Pass the new hashed password
+            );
+        }
 
         await client.query('COMMIT');
         return { id: userId, role_id, email };
