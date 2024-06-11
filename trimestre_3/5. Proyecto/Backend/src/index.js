@@ -5,7 +5,7 @@ const helmet = require('helmet');
 require('dotenv').config();
 
 // Routes
-
+const userRoutes = require('./routes/users.routes');
 // Middlewares
 
 // Port configuration
@@ -35,7 +35,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
 // Routes configuration
-
+app.use('/api/v1', userRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
