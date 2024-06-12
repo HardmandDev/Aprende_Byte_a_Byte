@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-
+import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { jwtDecode } from "jwt-decode";
+
 
 export default function Login() {
   const [formData, setFormData] = useState({
@@ -14,11 +15,18 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("https://jp9dtqt5-3001.use2.devtunnels.ms/api/v1/login", formData);
+      const response = await axios.post("https://jp9dtqt5-3000.use2.devtunnels.ms/api/v1/login", formData);
+      const { token } = response.data;
       console.log(response.data);
-      alert("Ya se ha iniciado sesión")
-      // Navegar a otra ruta después del inicio de sesión exitoso, si es necesario
-      // navigate('/dashboard');
+      if (token) {
+        localStorage.setItem('token', token); // Almacena el JWT en localStorage
+        const decoded = jwtDecode(token); // Decodifica el JWT
+        console.log('Decoded JWT data:', decoded);
+        // Navegar a otra ruta después del inicio de sesión exitoso
+        navigate('/HomeSt');
+      } else {
+        alert("Inicio de sesión fallido");
+      }
     } catch (error) {
       console.error("Error al enviar los datos:", error.response ? error.response.data : error.message);
     }
@@ -39,8 +47,7 @@ export default function Login() {
         </h2>
       </div>
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form className="space-y-6" method='POST
-      ' onSubmit={handleSubmit}>
+        <form className="space-y-6" method='POST' onSubmit={handleSubmit}>
           <div>
             <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
               Correo
