@@ -6,6 +6,9 @@ require('dotenv').config();
 
 // Routes
 const userRoutes = require('./routes/users.routes');
+const teacherRoutes = require('./routes/teacher.routes');
+
+
 // Middlewares
 
 // Port configuration
@@ -35,7 +38,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
 // Routes configuration
-app.use('/api/v1', userRoutes);
+app.use('/api/v1', userRoutes, teacherRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
