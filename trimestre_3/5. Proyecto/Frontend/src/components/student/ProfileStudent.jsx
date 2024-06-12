@@ -51,13 +51,14 @@ export default function ProfileStudent() {
           </aside>
         
 
-            <div className="container-home">
+            <div className="container-home mt-20">
               <Button variant="outline" className="w-full" style={{ borderColor: 'gray' }}>
-                Persona
+                Carlos
               </Button>
             </div>
             </ScrollArea>
           </div>
+          
         
 
       <div className="profile-config-container">
@@ -87,14 +88,17 @@ export default function ProfileStudent() {
               </div>
               <button type="submit" className="w-full bg-emerald-500 text-white px-4 py-2 rounded mt-4">Guardar</button>
             </form>
+            
           </div>
+          
         </main>
       </div>
       <div className="top-buttons">
-        <Button variant="outline" className="cursos-button">
+        <Button variant="outline" className="cursos-button mr-4">
           Cursos
         </Button>
-        <Button variant="outline">
+        
+        <Button variant="outline" className="bg-black text-white border-black">
           Salir
         </Button>
       </div>
