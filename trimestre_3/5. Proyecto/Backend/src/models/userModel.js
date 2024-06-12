@@ -1,6 +1,6 @@
 const pool = require('../db')
 
-// Used by the updateUser and getUserById function of users.controller.js
+// Used by the updateUser and getUserById functions of users.controller.js
 const getUserById = async (id) => {
     const res = await pool.query(`
         SELECT * FROM users WHERE id = $1
