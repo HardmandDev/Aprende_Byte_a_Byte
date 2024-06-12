@@ -1,6 +1,30 @@
 const bcrypt = require('bcrypt');
 const userModel = require('../models/userModel');
 
+const getUserById = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const user = await userModel.getUserById(id);
+
+        if (user) {
+            res.status(200).json(user);
+        } else {
+            res.status(404).json({ message: 'User not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching user' });
+    }
+}
+
+const getUsers = async (req, res) => {
+    try {
+        const users = await userModel.getUsers();
+        res.status(200).json(users);
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching users' });
+    }
+}
+
 const createUser = async (req, res) => {
     try {
         const { first_name, last_name, email, password } = req.body;
@@ -51,9 +75,21 @@ const updateUser = async (req, res) => {
     }
 };
 
+const deleteUser = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const deletedUser = await userModel.deleteUser(id);
+        res.status(200).json(deletedUser);
+    } catch (error) {
+        res.status(500).json({ error: 'Error deleting user', details: error.message });
+    }
+}
 
 
 module.exports = {
+    getUserById,
+    getUsers,
     createUser,
     updateUser,
+    deleteUser,
 };
