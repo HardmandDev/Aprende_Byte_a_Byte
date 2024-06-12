@@ -9,7 +9,8 @@ import Login from './components/guest/Login';
 import SignUp from './components/guest/SignUp';
 import Courses from './components/guest/Courses';
 import Course from './components/guest/Course';
-import HomeSt from './components/student/HomeSt';
+import SelectForm from './components/auth/support/SupportForm';
+
 
 function App() {
 
@@ -23,7 +24,8 @@ function App() {
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/courses" element={<Courses />} />
         <Route path="/courses/js" element={<Course />} />
-        <Route path="/homeSt" element={<HomeSt />} />
+        <Route path="/profileform" element={<SelectForm />} />
+
       </Routes>
       <Footer />
     </>
