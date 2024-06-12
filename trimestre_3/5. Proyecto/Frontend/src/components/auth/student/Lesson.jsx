@@ -3,7 +3,7 @@ import axios from 'axios';
 import Editor from '@monaco-editor/react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
-import '../index.css';
+import '../../../index.css';
 
 // Componente Header
 const Header = ({ title }) => (

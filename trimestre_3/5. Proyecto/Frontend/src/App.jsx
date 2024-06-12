@@ -9,7 +9,7 @@ import Login from "./components/guest/Login";
 import SignUp from './components/guest/SignUp';
 import Courses from './components/guest/Courses';
 import Course from './components/guest/Course';
-import Lesson from './pages/Lesson';
+import Lesson from './components/auth/student/Lesson';
 
 
 function App() {
