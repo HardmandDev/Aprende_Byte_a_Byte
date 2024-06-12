@@ -1,5 +1,6 @@
 const pool = require('../db')
 
+// Used by the updateUser and getUserById function of users.controller.js
 const getUserById = async (id) => {
     const res = await pool.query(`
         SELECT * FROM users WHERE id = $1
@@ -9,6 +10,16 @@ const getUserById = async (id) => {
     return res.rows[0];
 };
 
+// Used by the getUsers function of users.controller.js
+const getUsers = async () => {
+    const res = await pool.query(`
+        SELECT * FROM users
+        `,
+    );
+    return res.rows;
+};
+
+// Used by the createUser function of users.controller.js
 const createUser = async (userData) => {
     const { first_name, last_name, email, password } = userData;
     const client = await pool.connect();
@@ -40,6 +51,7 @@ const createUser = async (userData) => {
     }
 };
 
+// Used by the loginUser function of auth.controller.js
 const findUserByEmail = async (email) => {
     const res = await pool.query(
         `SELECT users.id, users.first_name, users.last_name, users.email, users.role_id, user_credentials.password
@@ -51,6 +63,7 @@ const findUserByEmail = async (email) => {
     return res.rows[0];
 };
 
+// Used by the updateUser function of users.controller.js
 const updateUser = async (userId, userData) => {
     const { role_id, email, password } = userData;
     const client = await pool.connect();
@@ -82,9 +95,48 @@ const updateUser = async (userId, userData) => {
     }
 };
 
+// Used by the deleteUser function of users.controller.js
+const deleteUser = async (userId) => {
+    const client = await pool.connect();
+
+    try {
+        await client.query('BEGIN');
+
+        // Delete from user_credentials
+        await client.query(
+            `DELETE FROM user_credentials WHERE user_id = $1`,
+            [userId]
+        );
+
+        // Delete from users
+        await client.query(
+            `DELETE FROM users WHERE id = $1`,
+            [userId]
+        );
+
+        // Delete from other tables where the user might be referenced (e.g., courses)
+        // Add more DELETE queries for other tables as needed
+        // Example:
+        // await client.query(
+        //     `DELETE FROM courses WHERE user_id = $1`,
+        //     [userId]
+        // );
+
+        await client.query('COMMIT');
+        return true; // Indicate successful deletion
+    } catch (error) {
+        await client.query('ROLLBACK');
+        throw error;
+    } finally {
+        client.release();
+    }
+};
+
 module.exports = {
     getUserById,
+    getUsers,
     createUser,
     findUserByEmail,
     updateUser,
+    deleteUser,
 };
