@@ -49,7 +49,7 @@ const createUser = async (req, res) => {
 const updateUser = async (req, res) => {
     try {
         const { id } = req.params;
-        const { role_id, email, password } = req.body;
+        const { role_id, email, password, document_type_id, document, first_name, last_name } = req.body;
 
         // Obtain the current user
         const user = await userModel.getUserById(id);
@@ -65,9 +65,21 @@ const updateUser = async (req, res) => {
             // Hash the password before updating
             user.password = await bcrypt.hash(password, 10);
         }
+        if (document_type_id) {
+            user.document_type_id = document_type_id;
+        }
+        if (document) {
+            user.document = document;
+        }
+        if (first_name) {
+            user.first_name = first_name;
+        }
+        if (last_name) {
+            user.last_name = last_name;
+        }
 
         // Update the user in the database
-        const updatedUser = await userModel.updateUser(id, user, password);
+        const updatedUser = await userModel.updateUser(id, user);
 
         res.status(200).json(updatedUser);
     } catch (error) {

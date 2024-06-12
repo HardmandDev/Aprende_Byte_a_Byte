@@ -19,9 +19,9 @@ router.post('/login', loginUser);
 
 // Private routes
 router.use(authenticateToken)
-router.get('/users', checkRole('support' || 'admin'), getUsers);
-router.put('/users/:id', checkRole('support' || 'admin' || 'student'), updateUser);
-router.delete('/users/:id', checkRole('support' || 'admin' || 'student'), deleteUser);
-router.get('/users/:id', checkRole('support' || 'admin' || 'student'), getUserById);
+router.get('/users', checkRole('support' || 'admin' || 'teacher'), getUsers);
+router.put('/users/:id', checkRole('support' || 'admin' || 'teacher' || 'student'), updateUser);
+router.delete('/users/:id', checkRole('support' || 'admin' || 'teacher' || 'student'), deleteUser);
+router.get('/users/:id', checkRole('support' || 'admin' || 'teacher' || 'student'), getUserById);
 
 module.exports = router;
