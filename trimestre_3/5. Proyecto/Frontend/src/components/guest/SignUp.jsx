@@ -35,6 +35,7 @@ export default function SignUp() {
       alert("La cuenta se creó exitosamente");
     } catch (error) {
       console.error("Error al enviar los datos:", error);
+      
     }
   };
 

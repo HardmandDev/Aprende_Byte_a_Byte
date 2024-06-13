@@ -4,12 +4,12 @@ import Header from './components/common/Header';
 import Footer from './components/common/Footer';
 
 import Index from './components/guest/Index';
-import Profile from './pages/Profile'
+import Profile from './pages/Profile';
 import Login from './components/guest/Login';
 import SignUp from './components/guest/SignUp';
 import Courses from './components/guest/Courses';
 import Course from './components/guest/Course';
-import SelectForm from './components/auth/support/SupportForm';
+import Admin from "./components/auth/admin-course/Admin";
 
 
 function App() {
@@ -24,8 +24,7 @@ function App() {
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/courses" element={<Courses />} />
         <Route path="/courses/js" element={<Course />} />
-        <Route path="/profileform" element={<SelectForm />} />
-
+        <Route path="/admin" element={<Admin />} />
       </Routes>
       <Footer />
     </>
