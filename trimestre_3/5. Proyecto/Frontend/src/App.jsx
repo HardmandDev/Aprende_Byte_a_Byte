@@ -9,7 +9,7 @@ import Login from './components/guest/Login';
 import SignUp from './components/guest/SignUp';
 import Courses from './components/guest/Courses';
 import Course from './components/guest/Course';
-import ProfileStudent from './components/student/ProfileStudent';
+import Certifications from './components/auth/student/Certifications';
 
 
 function App() {
@@ -24,7 +24,7 @@ function App() {
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/courses" element={<Courses />} />
         <Route path="/courses/js" element={<Course />} />
-        <Route path="/profilestudent" element={<ProfileStudent />} />
+        <Route path="/certifications" element={<Certifications />} />
       </Routes>
       <Footer />
     </>
