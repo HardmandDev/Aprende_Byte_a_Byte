@@ -65,7 +65,7 @@ const findUserByEmail = async (email) => {
 
 // Used by the updateUser function of users.controller.js
 const updateUser = async (userId, userData) => {
-    const { role_id, email, password } = userData;
+    const { role_id, email, password, document_type_id, document, first_name, last_name } = userData;
     const client = await pool.connect();
 
     try {
@@ -73,8 +73,8 @@ const updateUser = async (userId, userData) => {
 
         // Update the role in the 'users' table
         await client.query(
-            `UPDATE users SET role_id = $1, email = $2 WHERE id = $3`,
-            [role_id, email, userId]
+            `UPDATE users SET role_id = $1, email = $2, document_type_id = $3, document = $4, first_name = $5, last_name = $6 WHERE id = $7`,
+            [role_id, email, document_type_id, document, first_name, last_name, userId]
         );
 
         // Update the password in the 'user_credentials' table
@@ -86,7 +86,7 @@ const updateUser = async (userId, userData) => {
         }
 
         await client.query('COMMIT');
-        return { id: userId, role_id, email };
+        return { id: userId, role_id, email, document_type_id, document, first_name, last_name };
     } catch (error) {
         await client.query('ROLLBACK');
         throw error;
