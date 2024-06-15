@@ -12,7 +12,8 @@ import Course from './components/guest/Course';
 import Admin from "./components/auth/admin-course/Admin";
 import ProfileStudent from "./components/student/ProfileStudent";
 import HomeSt from "./components/student/HomeSt";
-import {Lesson} from "../src/pages/lesson"
+import Lesson from "./pages/lesson"
+import SupportTable from './components/auth/support/SupporTable';
 
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
         <Route path="/profile-student" element={<ProfileStudent />} />
         <Route path="/home-student" element={<HomeSt />} />
         <Route path="/student/javascript/lesson" element={<Lesson />} />
+        <Route path="support-table" element={<SupportTable />} />
       </Routes>
       <Footer />
     </>

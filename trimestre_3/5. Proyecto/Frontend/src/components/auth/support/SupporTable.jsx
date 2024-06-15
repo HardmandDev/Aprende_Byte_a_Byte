@@ -18,8 +18,9 @@ export default function SupportTable() {
   useEffect(() => {
     const getUsers = async () => {
       try {
-        const response = await axios.get('https://jp9dtqt5-3000.use2.devtunnels.ms/api/v1/users');
+        const response = await axios.get('https:jp9dtqt5-3000.use2.devtunnels.ms/api/v1/users');
         setUsers(response.data);
+        // console.log(response.data)
       } catch (error) {
         setError(error);
       } finally {
@@ -31,7 +32,8 @@ export default function SupportTable() {
   }, []);
   const deleteUser = async (userId) => {
     try {
-      await axios.delete(`https://jp9dtqt5-3000.use2.devtunnels.ms/api/v1/users/:${userId}`); // Asumiendo que esta es la URL correcta para eliminar un usuario
+      await axios.delete(`${userId}https://jp9dtqt5-3000.use2.devtunnels.ms/api/v1/users/:id` ); // Asumiendo que esta es la URL correcta para eliminar un usuario
+    
       setUsers(users.filter(user => user.id !== userId)); // Actualizar el estado después de la eliminación
     } catch (error) {
       console.error("Error al eliminar el usuario:", error);
@@ -64,7 +66,7 @@ export default function SupportTable() {
             <TableCell>{user.first_name}</TableCell>
             <TableCell>{user.las_tName}</TableCell>
             <TableCell>{user.email}</TableCell>
-            <TableCell>{user.role}</TableCell>
+            <TableCell>{user.role_id}</TableCell>
             <TableCell ><button onClick={()=>Navigate('')}>Editar</button>/<button onClick={() => deleteUser(user.id)}>Borrar</button></TableCell>
           </TableRow>
         ))}
