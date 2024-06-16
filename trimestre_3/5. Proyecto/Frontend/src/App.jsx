@@ -10,8 +10,9 @@ import SignUp from './components/guest/SignUp';
 import Courses from './components/guest/Courses';
 import Course from './components/guest/Course';
 import Admin from "./components/auth/admin-course/Admin";
-import ProfileStudent from "./components/student/ProfileStudent";
-import HomeSt from "./components/student/HomeSt";
+import ProfileStudent from "./pages/ProfileStudent";
+import HomeSt from "./pages/HomeSt";
+import Overview from "./components/auth/student/Overview";
 
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
         <Route path="/admin" element={<Admin />} />
         <Route path="/profile-student" element={<ProfileStudent />} />
         <Route path="/home-student" element={<HomeSt />} />
+        <Route path="/overview" element={<Overview />} />
       </Routes>
       <Footer />
     </>
