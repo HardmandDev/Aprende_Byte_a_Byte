@@ -49,15 +49,12 @@ const createUser = async (req, res) => {
 const updateUser = async (req, res) => {
     try {
         const { id } = req.params;
-        const { role_id, email, password, document_type_id, document, first_name, last_name } = req.body;
+        const { email, password, document_type_id, document, first_name, last_name } = req.body;
 
         // Obtain the current user
         const user = await userModel.getUserById(id);
 
         // Update the user's fields with the values from the request body
-        if (role_id) {
-            user.role_id = role_id;
-        }
         if (email) {
             user.email = email;
         }
@@ -87,6 +84,26 @@ const updateUser = async (req, res) => {
     }
 };
 
+const updateUserRole = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { role_id } = req.body;
+        const user = await userModel.getUserById(id);
+
+        // Update the user's fields with the values from the request body
+        if (role_id) {
+            user.role_id = role_id;
+        }
+
+        // Update the user in the database
+        const updatedUser = await userModel.updateUserRole(id, user);
+        res.status(200).json(updatedUser);
+    } catch (error) {
+        res.status(500).json({ error: 'Error updating user', details: error.message });
+    }
+}
+
+
 const deleteUser = async (req, res) => {
     try {
         const { id } = req.params;
@@ -103,5 +120,6 @@ module.exports = {
     getUsers,
     createUser,
     updateUser,
+    updateUserRole,
     deleteUser,
 };
