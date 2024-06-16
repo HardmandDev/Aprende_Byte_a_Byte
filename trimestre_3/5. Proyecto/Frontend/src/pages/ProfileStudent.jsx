@@ -7,9 +7,7 @@ import './HomeSt.css';
 export default function ProfileStudent() {
   return (
     <article className="tab-container">
-      <div className="scrollArea-container">
-        <Sidebar />
-      </div>
+      <Sidebar />
       <div className="profile-config-container">
         <main className="flex flex-col items-center w-full flex-1 px-4 py-8">
           <h2 className="text-3xl font-bold mb-8">Configuración del perfil</h2>
@@ -35,21 +33,10 @@ export default function ProfileStudent() {
                 <label className="block text-gray-700">Correo</label>
                 <input type="email" className="w-full px-3 py-2 border rounded" defaultValue="hardmandsaga@gmail.com" />
               </div>
-              <button type="submit" className="w-full bg-emerald-500 text-white px-4 py-2 rounded mt-4">Guardar</button>
+              <Button type="submit" variant="default" className="w-full bg-red-500 text-white px-4 py-2 rounded mt-4">Guardar</Button>
             </form>
-            
           </div>
-          
         </main>
-      </div>
-      <div className="top-buttons">
-        <Button variant="outline" className="cursos-button mr-4">
-          Cursos
-        </Button>
-        
-        <Button variant="outline" className="bg-black text-white border-black">
-          Salir
-        </Button>
       </div>
     </article>
   );

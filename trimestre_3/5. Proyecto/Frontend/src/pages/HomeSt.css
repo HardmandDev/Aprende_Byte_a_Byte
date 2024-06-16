@@ -1,14 +1,3 @@
-.tab-container{
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-}
-
-.tab-content{
-    flex-grow: 1;
-    overflow-y: auto;
-}
-
 .scrollArea-container{
     overflow-y:auto;
 }
