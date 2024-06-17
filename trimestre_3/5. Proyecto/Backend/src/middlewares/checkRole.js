@@ -1,4 +1,4 @@
-const checkRole = (role) => {
+const checkRole = (...roles) => {
     return (req, res, next) => {
         const roleMapping = {
             student: '8c890948-5402-40e6-a38d-6f2df9e3b4db',
@@ -7,12 +7,9 @@ const checkRole = (role) => {
             admin: '7bf4770d-ab11-4aba-9e0a-991b3f162488'
         };
 
-        const requiredRoleId = roleMapping[role];
-        if (!requiredRoleId) {
-            return res.status(500).json({ message: 'Invalid role specified' });
-        }
+        const allowedRoleIds = roles.map(role => roleMapping[role]);
 
-        if (req.user.role_id !== requiredRoleId) {
+        if (!allowedRoleIds.includes(req.user.role_id)) {
             return res.status(403).json({ message: 'Acceso denegado' });
         }
 
