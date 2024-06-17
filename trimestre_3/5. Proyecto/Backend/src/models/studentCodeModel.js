@@ -20,7 +20,7 @@ const getAllStudentCode = async () => {
     return res.rows
 }
 
-const createStudentCode = async (studentCode) => {
+const createStudentCode = async (student) => {
     const res = await pool.query(
         `
         INSERT INTO student_code (
@@ -32,16 +32,16 @@ const createStudentCode = async (studentCode) => {
         RETURNING *
         `,
         [
-            studentCode.teacher_code_id,
-            studentCode.user_student_id,
-            studentCode.lesson_id,
-            studentCode.student_code
+            student.teacher_code_id,
+            student.user_student_id,
+            student.lesson_id,
+            student.student_code
         ]
     );
     return res.rows[0]
 }
 
-const updateStudentCode = async (studentCode) => {
+const updateStudentCode = async (student) => {
     const res = await pool.query(
         `
         UPDATE student_code
@@ -54,11 +54,11 @@ const updateStudentCode = async (studentCode) => {
         RETURNING *
         `,
         [
-            studentCode.teacher_code_id,
-            studentCode.user_student_id,
-            studentCode.lesson_id,
-            studentCode.student_code,
-            studentCode.id
+            student.teacher_code_id,
+            student.user_student_id,
+            student.lesson_id,
+            student.student_code,
+            student.id
         ]
     );
     return res.rows[0]

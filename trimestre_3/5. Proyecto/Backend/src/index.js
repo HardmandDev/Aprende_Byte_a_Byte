@@ -11,6 +11,7 @@ const coursesRoutes = require('./routes/courses.routes');
 const lessonsRoutes = require('./routes/lessons.routes');
 const teacherCodeRoutes = require('./routes/teacher_code.routes')
 const studentCodeRoutes = require('./routes/student_code.routes');
+const studentProgressRoutes = require('./routes/student_progress.routes');
 
 // Middlewares
 
@@ -47,6 +48,7 @@ app.use('/api/v1/courses', coursesRoutes);
 app.use('/api/v1/lessons', lessonsRoutes);
 app.use('/api/v1/teacher_code', teacherCodeRoutes);
 app.use('/api/v1/student_code', studentCodeRoutes);
+app.use('/api/v1/student_progress', studentProgressRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
