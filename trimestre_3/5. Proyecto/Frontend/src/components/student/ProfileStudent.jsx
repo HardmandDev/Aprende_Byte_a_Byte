@@ -1,66 +1,13 @@
 import React from "react";
 import "./ProfileStudent.css";
-import { ScrollArea } from "@/components/ui/scroll-area"
 import { Button } from "@/components/ui/button"
+import Sidebar from '@/components/auth/student/Sidebar';
+import './ProfileStudent.css';
 
 export default function ProfileStudent() {
   return (
     <article className="tab-container">
-      <div className="scrollArea-container">
-        <ScrollArea className="h-[780px] w-[300px] rounded-md border p-7" style={{ borderColor: 'gray' }}>
-          <div className="flex justify-center items-center mb-4">
-            <img src="src/assets/Logo.png" alt="Logo" className="image-logo" />
-          </div>
-          <aside>
-            <Button variant="outline" className="w-full">
-              <div className="button-content">
-                <img src="https://university.alchemy.com/assets/home_logo.8e92adf7.svg" alt="Inicio" className="image-home" />
-                <span>Inicio</span>
-              </div>
-            </Button>
-            <strong className="text-course">CURSOS</strong>
-
-            <Button variant="outline" className="w-full">
-              <div className="button-content">
-                <img src="https://www.alchemy.com/university/_next/static/media/solidity-course-icon.79d288cd.svg" alt="Js" className="image-home" />
-                <span>Aprende Python</span>
-              </div>
-            </Button>
-
-            <Button variant="outline" className="w-full">
-              <div className="button-content">
-                <img src="https://university.alchemy.com/assets/js_logo_drawer.384f31cc.svg" alt="Js" className="image-home" />
-                <span>Aprende Javascript</span>
-              </div>
-            </Button>
-
-            <Button variant="outline" className="w-full">
-              <div className="button-content">
-                <img src="https://www.alchemy.com/university/_next/static/media/eth-course-icon.3bb938e2.svg" alt="Js" className="image-home" />
-                <span>Aprende Java</span>
-              </div>
-            </Button>
-
-            <strong className="text-course">LOGROS</strong>
-            <Button variant="outline" className="w-full">
-              <div className="button-content">
-                <img src="https://university.alchemy.com/cert-icon.svg" alt="Certificaciones" className="image-home" />
-                <span>Certificaciones</span>
-              </div>
-            </Button>
-          </aside>
-        
-
-            <div className="container-home mt-20">
-              <Button variant="outline" className="w-full" style={{ borderColor: 'gray' }}>
-                Carlos
-              </Button>
-            </div>
-            </ScrollArea>
-          </div>
-          
-        
-
+      <Sidebar />
       <div className="profile-config-container">
         <main className="flex flex-col items-center w-full flex-1 px-4 py-8">
           <h2 className="text-3xl font-bold mb-8">Configuración del perfil</h2>
@@ -86,21 +33,10 @@ export default function ProfileStudent() {
                 <label className="block text-gray-700">Correo</label>
                 <input type="email" className="w-full px-3 py-2 border rounded" defaultValue="hardmandsaga@gmail.com" />
               </div>
-              <button type="submit" className="w-full bg-emerald-500 text-white px-4 py-2 rounded mt-4">Guardar</button>
+              <Button type="submit" variant="default" className="w-full bg-red-500 text-white px-4 py-2 rounded mt-4">Guardar</Button>
             </form>
-            
           </div>
-          
         </main>
-      </div>
-      <div className="top-buttons">
-        <Button variant="outline" className="cursos-button mr-4">
-          Cursos
-        </Button>
-        
-        <Button variant="outline" className="bg-black text-white border-black">
-          Salir
-        </Button>
       </div>
     </article>
   );
