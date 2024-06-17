@@ -30,7 +30,7 @@ export default function SignUp() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("https://jp9dtqt5-3001.use2.devtunnels.ms/api/v1/sign-up", formData);
+      const response = await axios.post("https://jp9dtqt5-3000.use2.devtunnels.ms/api/v1/register", formData);
       console.log(response.data);
       alert("La cuenta se creó exitosamente");
     } catch (error) {
