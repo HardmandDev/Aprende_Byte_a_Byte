@@ -2,16 +2,28 @@ const courseModel = require('../models/courseModel')
 
 const createCourse = async (req, res) => {
     try {
-        const { user_id, course_name, description, image_url, level_id } = req.body;
+        const {
+            user_teacher_id,
+            course_name,
+            description,
+            image_url,
+            level_id
+        } = req.body;
 
         const newCourse = await courseModel.createCourse(
-            { course_name, description, image_url, level_id },
-            user_id
+            {
+                user_teacher_id,
+                course_name,
+                description,
+                image_url,
+                level_id
+            }
         );
 
         res.status(201).json(newCourse);
     } catch (error) {
-        res.status(500).json({ error: 'Error creating course', details: error.message });
+        res.status(500).json(
+            { error: 'Error creating course', details: error.message });
     }
 }
 
@@ -41,12 +53,20 @@ const getCourseById = async (req, res) => {
 const updateCourse = async (req, res) => {
     try {
         const { id } = req.params;
-        const { user_teacher_id, course_name, description, image_url, level_id } = req.body;
+        const { 
+            user_teacher_id, 
+            course_name, 
+            description, 
+            image_url, level_id 
+        } = req.body;
 
-        // Obtain the current user
+        // Obtain the current course
         const course = await courseModel.getCourseById(id);
 
         // Update the user's fields with the values from the request body
+        if (id) {
+            course.id = id;
+        }
         if (user_teacher_id) {
             course.user_teacher_id = user_teacher_id;
         }
@@ -64,7 +84,7 @@ const updateCourse = async (req, res) => {
         }
 
         // Update the user in the database
-        const updatedCourse = await courseModel.updateCourse(course, id);
+        const updatedCourse = await courseModel.updateCourse(course);
 
         res.status(200).json(updatedCourse);
     } catch (error) {
@@ -76,7 +96,7 @@ const deleteCourse = async (req, res) => {
     try {
         const { id } = req.params;
         const deletedCourse = await courseModel.deleteCourse(id);
-        res.status(200).json({message: 'Course deleted successfully'}, deletedCourse);
+        res.status(200).json({ message: 'Course deleted successfully' }, deletedCourse);
     } catch (error) {
         res.status(500).json({ error: 'Error deleting course', details: error.message });
     }

@@ -1,8 +1,10 @@
 const pool = require('../db');
 
 const getCourseById = async (id) => {
-    const res = await pool.query(`
-        SELECT * FROM courses WHERE id = $1
+    const res = await pool.query(
+        `
+        SELECT * FROM courses 
+        WHERE id = $1
         `,
         [id]
     )
@@ -10,7 +12,8 @@ const getCourseById = async (id) => {
 };
 
 const getCourses = async () => {
-    const res = await pool.query(`
+    const res = await pool.query(
+        `
         SELECT * FROM courses
         `
     )
@@ -18,52 +21,76 @@ const getCourses = async () => {
 };
 
 // Used by the createCourse function of teacher.controller.js
-const createCourse = async (course, user_teacher_id) => {
+const createCourse = async (course) => {
     const res = await pool.query(
-        `INSERT INTO courses (
+        `
+        INSERT INTO courses (
             user_teacher_id,
             course_name, 
             description, 
             image_url,
             level_id
-            ) 
-            VALUES ($1, $2, $3, $4, $5) 
-            RETURNING *`,
-        [user_teacher_id, course.course_name, course.description, course.image_url, course.level_id]
+        ) 
+        VALUES ($1, $2, $3, $4, $5) 
+        RETURNING *
+        `,
+        [
+            course.user_teacher_id,
+            course.course_name,
+            course.description,
+            course.image_url,
+            course.level_id
+        ]
     );
     return res.rows[0];
 };
 
-const updateCourse = async (course, id) => {
+const updateCourse = async (course) => {
     const res = await pool.query(
-        `UPDATE courses SET
+        `
+        UPDATE courses SET
             user_teacher_id = $1,
             course_name = $2, 
             description = $3, 
             image_url = $4,
             level_id = $5
-            WHERE id = $6
-            RETURNING *`,
-        [course.user_teacher_id, course.course_name, course.description, course.image_url, course.level_id, id]
+        WHERE id = $6
+        RETURNING *
+        `,
+        [
+            course.user_teacher_id,
+            course.course_name,
+            course.description,
+            course.image_url,
+            course.level_id,
+            course.id
+        ]
     );
     return res.rows[0];
 };
 
 // Used by the updateStatusCourse function of admin.controller.js
-const updateStatusCourse = async (courseId, courseData) => {
-    const { status, user_admin_id } = courseData;
+const updateStatusCourse = async (course) => {
     const client = await pool.connect();
-
     try {
         await client.query('BEGIN');
 
         await client.query(
-            `UPDATE courses SET status = $1, user_admin_id = $2 WHERE id = $3`,
-            [status, user_admin_id, courseId]
+            `
+            UPDATE courses SET 
+                status = $1, 
+                user_admin_id = $2 
+            WHERE id = $3
+            `,
+            [
+                course.status,
+                course.user_admin_id,
+                course.id
+            ]
         );
 
         await client.query('COMMIT');
-        return { id: courseId, status };
+        return { id: course.id, status: course.status };
 
     } catch (error) {
         await client.query('ROLLBACK');
@@ -73,10 +100,13 @@ const updateStatusCourse = async (courseId, courseData) => {
     }
 };
 
-const deleteCourse = async (courseId) => {
+const deleteCourse = async (id) => {
     const res = await pool.query(
-        `DELETE FROM courses WHERE id = $1`,
-        [courseId]
+        `
+        DELETE FROM courses 
+        WHERE id = $1
+        `,
+        [id]
     );
     return res.rows[0];
 };
@@ -87,5 +117,5 @@ module.exports = {
     createCourse,
     updateCourse,
     updateStatusCourse,
-    deleteCourse,
+    deleteCourse
 };
