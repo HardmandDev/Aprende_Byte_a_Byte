@@ -1,7 +1,25 @@
 import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button"
+import { useState } from 'react';
 
-function Header() {
+
+
+
+export default function Header() {
+  const [valor, setValor] = useState("Register");
+  const [link, setLink] = useState("/sign-up");
+  
+  const handleButtonClick = () => {
+    if (valor === "Register" && link === "/sign-up") {
+      setValor("LogIn");
+      setLink("/login");
+    } else if (valor === "LogIn" && link === "/login") {
+      setValor("Register");
+      setLink("/sign-up");
+    }
+    console.log(valor + link);
+  };
+
   return (
     <nav className="bg-gray-800 text-white py-4 px-6">
       <div className="container mx-auto flex items-center justify-between">
@@ -20,9 +38,11 @@ function Header() {
             </Link>
           </li>
           <li>
-            <Link to="/login" className="hover:text-gray-400">
-              <Button> Login </Button>
-            </Link>
+            <Button onClick={handleButtonClick} className="hover:text-gray-400">
+              <Link to={link}>
+                {valor}
+              </Link>
+            </Button>
           </li>
         </ul>
       </div>
@@ -30,4 +50,4 @@ function Header() {
   );
 }
 
-export default Header;
+

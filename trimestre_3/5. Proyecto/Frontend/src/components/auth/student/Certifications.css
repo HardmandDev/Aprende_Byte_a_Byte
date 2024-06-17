@@ -1,116 +1,45 @@
-.sidenav {
-  height: 90%;
-  z-index: 1;
-  width: 250px;
-  position: fixed;
-  margin-left: -1px;
-  background-color: #f5f5f5;
-  overflow-x: hidden;
-  top: 72px;  
- 
+.certifications-page {
+  display: flex;
 }
 
-.logo {
+.certifications-container {
+  flex: 1;
+  padding: 20px;
+}
+
+.certifications {
+  background-color: #ffffff;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   text-align: center;
-  margin-bottom: 20px;
+  max-width: 600px; 
+  margin: auto; 
 }
 
-.logo img {
-  width: 200px;
-  position: relative;
-  max-width: 400%;
-  margin-left: 5px;
-  
-}
-
-.nav-item {
-  padding: 12px 25px;
-  text-decoration: none;
-  font-size: 16px;
-  color: #333;
-}
-
-.python-img {
-  width: 22px;
-  height: 20px;
-  margin-bottom: 10px;
-}
-
-.nav-item:hover {
-  background-color: #ddd;
-}
-
-
-.nav-link {
-  display: flex;
-  align-items: center;
-  text-decoration: none;
-  color: #333;
-}
-
-.nav-link i {
-  margin-right: 20px;
-}
-
-.nav-title {
-  font-size: 15px;
+.certifications h1 {
   font-weight: bold;
-  color: #333;
-  padding: 10px 20px;
-  background-color: #eee;
+  font-size: 48px;
   margin-bottom: 10px;
+  color: #333333;
 }
 
-.user {
-  display: flex;
-  align-items: center;
-  padding: 10px 20px;
-  margin-top: auto;
+.certifications h2 {
+  font-weight: bold;
+  font-size: 36px; 
+  color: #4a90e2;
+  margin-bottom: 20px;
+  background-image: linear-gradient(to right, #4a90e2, #9013fe);
+  background-clip: text; 
+  color: transparent;
 }
 
-.user img {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  margin-right: 10px;
+.message {
+  margin-top: 20px;
+  text-align: center;
 }
-    
-    .certifications {
-      display: flex;
-      flex-direction: column;
-      position:static;
-      margin-left: 390px;
-      top: 50px;
-      width: 800px;
-    }
-    
-    .certifications h1 {
-      font-size: 2.5rem;
-      font-weight: bold;
-      margin-bottom: 1rem;
-      text-align: center;
-    }
-    
-    .gradient-text {
-      font-size: 2.5rem;
-      font-weight: bold;
-      background: linear-gradient(to right, #5ea5f2, #1d76b7);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 2rem;
-      text-align: center;
-    }
-    
-    .message {
-      background-color: white;
-      padding: 40px;
-      border-radius: 20px;
-      box-shadow: 0 2px 50px rgba(0,0,0,0.1);
-      text-align: center;
-    }
-    
-    .message p {
-      margin: 0;
-      color: #f5a623;
-      font-size: 16px;
-    }
+
+.message p {
+  font-size: 18px;
+  color: #555555;
+}
