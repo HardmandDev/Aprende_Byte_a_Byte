@@ -39,11 +39,19 @@ export default function SupportTable() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+  const navigate = useNavigate();
+ 
   useEffect(() => {
+    const token = localStorage.getItem('token')                           
+    if (!token) {
+      // Redirigir al usuario al login si no hay token
+      navigate('/login')
+      return;
+    }
+    const decodedToken = jwt_decode(token) 
     const getUsers = async () => {
       try {
-        const response = await axios.get('https:jp9dtqt5-3000.use2.devtunnels.ms/api/v1/users');
+        const response = await axios.get('https:jp9dtqt5-3000.use2.devtunnels.ms/api/v1/users')
         setUsers(response.data);
         // console.log(response.data)
       } catch (error) {
@@ -57,13 +65,20 @@ export default function SupportTable() {
   }, []);
   const deleteUser = async (userId) => {
     try {
-      const response = await axios.delete(`https://jp9dtqt5-3001.use2.devtunnels.ms/api/v1/users/${userId}`); // Colocar userId en la URL correcta
+      const token = localStorage.getItem('token')
+      const response = await axios.delete(`https://jp9dtqt5-3001.use2.devtunnels.ms/api/v1/users/${userId}`, {// Colocar userId en la URL correcta
+        headers: {
+          Authorization: `Bearer ${token}` //autorización
+        }
+      })
+      console.log("Usuario eliminado:", response.data)
+      setUsers(users.filter(user => user.id !== userId))
 
-      console.log("Usuario eliminado:", response.data);
+     
   
       setUsers(users.filter(user => user.id !== userId)); // Actualizar el estado después de la eliminación
     } catch (error) {
-      console.error("Error al eliminar el usuario:", error);
+      console.error("Error al eliminar el usuario:", error)
     }
   };
 
