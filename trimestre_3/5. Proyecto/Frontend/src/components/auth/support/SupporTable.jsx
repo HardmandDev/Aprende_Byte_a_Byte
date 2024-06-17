@@ -12,6 +12,29 @@ import { Button } from "@/components/ui/button"
 
 import axios from "axios";
 import { Navigate, useNavigate } from "react-router-dom";
+
+function definirRole(code){
+  let role 
+  switch (code) {
+    case "8c890948-5402-40e6-a38d-6f2df9e3b4db":
+      role = "Estudiante"
+      break;
+    case "f3d9324c-ecbd-4d1b-bc92-dbe75ff149db":
+      role = "Docente"
+      break;
+    case "6126917f-f7e3-4ee8-a5a1-16e3b128f26b":
+      role = "Support"
+      break;
+    case "7bf4770d-ab11-4aba-9e0a-991b3f162488":
+      role = "Admin"
+      break;
+  
+    default:
+       role=undefined;
+  } return role
+  
+}
+
 export default function SupportTable() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -34,7 +57,7 @@ export default function SupportTable() {
   }, []);
   const deleteUser = async (userId) => {
     try {
-      const response = await axios.delete(`https://jp9dtqt5-3000.use2.devtunnels.ms/api/v1/users/${userId}`); // Colocar userId en la URL correcta
+      const response = await axios.delete(`https://jp9dtqt5-3001.use2.devtunnels.ms/api/v1/users/${userId}`); // Colocar userId en la URL correcta
 
       console.log("Usuario eliminado:", response.data);
   
@@ -70,7 +93,8 @@ export default function SupportTable() {
             <TableCell>{user.first_name}</TableCell>
             <TableCell>{user.las_tName}</TableCell>
             <TableCell>{user.email}</TableCell>
-            <TableCell>{user.role_id}</TableCell>
+            <TableCell>{definirRole(user.id_role)}
+            </TableCell>
             <TableCell >
               <Button variant="default" onClick={() => Navigate('')}>Editar</Button>
               <Button variant="destructive" onClick={() => deleteUser(user.id)}>Borrar</Button></TableCell>
