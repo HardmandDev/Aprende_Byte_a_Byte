@@ -1,0 +1,66 @@
+.tab-container{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.tab-content{
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+.scrollArea-container{
+    overflow-y:auto;
+}
+
+.container-home{
+    width: 300px;
+    height: 38px;
+    position: sticky;
+}
+
+.image-logo{
+    height: 100px;
+}
+
+.text-course{
+    line-height: 5;
+}
+
+.container-welcome{
+    position: absolute;
+    top: 100px;
+    left: 350px;
+}
+
+.text-welcome, .text-welcome-2 {
+    font-size: 55px;
+}
+
+.text-welcome-2{
+    background: linear-gradient(to right, #ff9966, #ff5e62); 
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.text-welcome-3{
+    font-weight: bold;
+    font-size: 15px;
+    line-height: 3;
+    margin-top: 10px;
+}
+
+.container-course{
+    padding: 20px;
+    margin-top: 10px;
+    line-height: 2.5;
+    font-size: 20px;
+    background-color: antiquewhite;
+    border-radius: 10px;
+    border-color: gray;
+    border-width: 1px;
+}
+
+.image-home {
+    padding-right: 10px;
+}

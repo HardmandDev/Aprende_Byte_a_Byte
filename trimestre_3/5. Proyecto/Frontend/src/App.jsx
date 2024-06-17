@@ -4,12 +4,13 @@ import Header from './components/common/Header';
 import Footer from './components/common/Footer';
 
 import Index from './components/guest/Index';
-import Profile from './pages/Profile'
-import Login from "./components/guest/Login";
+import Profile from './pages/Profile';
+import Login from './components/guest/Login';
 import SignUp from './components/guest/SignUp';
 import Courses from './components/guest/Courses';
 import Course from './components/guest/Course';
 import Admin from './pages/Admin';
+
 
 
 function App() {
@@ -25,7 +26,6 @@ function App() {
         <Route path="/courses" element={<Courses />} />
         <Route path="/courses/js" element={<Course />} />
         <Route path="/admin" element={<Admin />} />
-        
       </Routes>
       <Footer />
     </>

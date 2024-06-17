@@ -17,7 +17,7 @@ export default function Courses () {
   
     <div>
       <h1 className='text-center text-3xl pt-5 bg-gradient-to-r from-slate-950 via-slate-950 to-cyan-500 text-transparent bg-clip-text leading-normal font-bold text-3xl">'>Encuentra el curso para ti</h1>
-      <h2 className='text-center text-3xl pt-5 text-sm'>Seleccione un curso adecuado para usted</h2>
+      <h2 className='text-center pt-5 text-sm'>Seleccione un curso adecuado para usted</h2>
 
       <div class= "flex space-x-4 ">  
         
