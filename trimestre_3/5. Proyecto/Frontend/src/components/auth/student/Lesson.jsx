@@ -6,7 +6,7 @@ import 'react-tabs/style/react-tabs.css';
 import '../../../index.css';
 
 // Componente Header
-const Header = ({ title }) => (
+export const Header = ({ title }) => (
   <div className="bg-blue-600 text-white p-4 flex justify-between items-center w-full">
     <button className="bg-blue-800 px-3 py-1 rounded">Anterior</button>
     <h1 className="text-xl">{title}</h1>
@@ -15,7 +15,7 @@ const Header = ({ title }) => (
 );
 
 // Componente Sidebar
-const Sidebar = () => (
+export const Sidebar = () => (
   <aside className="w-full lg:w-1/3 bg-gray-100 p-4 overflow-y-auto">
     <Tabs>
       <TabList>
@@ -87,7 +87,7 @@ const Sidebar = () => (
 );
 
 // Componente MainContent
-const MainContent = ({ editorValue, onEditorChange, onRunTests, testOutput, testCode }) => (
+export const MainContent = ({ editorValue, onEditorChange, onRunTests, testOutput, testCode }) => (
   <main className="w-full lg:w-2/3 bg-white p-4 flex flex-col">
     <div className="flex-1">
       <div className="flex justify-between items-center mb-2">
@@ -130,43 +130,4 @@ const MainContent = ({ editorValue, onEditorChange, onRunTests, testOutput, test
 );
 
 // Componente principal Lesson
-export default function Lesson() {
-  const [editorContent, setEditorContent] = useState(`const a = 5;\nmodule.exports = a;`);
-  const [testOutput, setTestOutput] = useState({ success: true, message: "a should equal 5 - Test Passed" });
-  const testCode = `const a = require('./index.js');\nconst assert = require('assert');\n\ntry {\n  assert.strictEqual(a, 5);\n  console.log('a should equal 5 - Test Passed');\n} catch (error) {\n  console.log('a should equal 5 - Test Failed');\n}`;
 
-  const handleEditorChange = (value) => {
-    setEditorContent(value);
-  };
-
-  const handleRunTests = async () => {
-    try {
-      const response = await axios.post('https://your-endpoint.com/api/submit', {
-        code: editorContent,
-      });
-
-      const result = response.data;
-      setTestOutput({ success: result.success, message: result.message });
-      console.log('Resultado del endpoint:', result);
-    } catch (error) {
-      setTestOutput({ success: false, message: 'Error al enviar el código al endpoint.' });
-      console.error('Error al enviar el código al endpoint:', error);
-    }
-  };
-
-  return (
-    <div className="h-screen flex flex-col">
-      <Header title="INTRODUCCIÓN A JAVASCRIPT" />
-      <div className="flex flex-1 w-full">
-        <Sidebar />
-        <MainContent
-          editorValue={editorContent}
-          onEditorChange={handleEditorChange}
-          onRunTests={handleRunTests}
-          testOutput={testOutput}
-          testCode={testCode}
-        />
-      </div>
-    </div>
-  );
-}

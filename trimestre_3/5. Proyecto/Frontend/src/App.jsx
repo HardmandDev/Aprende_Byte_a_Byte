@@ -9,8 +9,11 @@ import Login from './components/guest/Login';
 import SignUp from './components/guest/SignUp';
 import Courses from './components/guest/Courses';
 import Course from './components/guest/Course';
-import Admin from './pages/Admin';
-
+import Admin from "./components/auth/admin-course/Admin";
+import ProfileStudent from "./components/student/ProfileStudent";
+import HomeSt from "./components/student/HomeSt";
+import Lesson from "./pages/lesson"
+import SupportTable from './components/auth/support/SupporTable';
 
 
 function App() {
@@ -26,6 +29,10 @@ function App() {
         <Route path="/courses" element={<Courses />} />
         <Route path="/courses/js" element={<Course />} />
         <Route path="/admin" element={<Admin />} />
+        <Route path="/profile-student" element={<ProfileStudent />} />
+        <Route path="/home-student" element={<HomeSt />} />
+        <Route path="/student/javascript/lesson" element={<Lesson />} />
+        <Route path="support-table" element={<SupportTable />} />
       </Routes>
       <Footer />
     </>

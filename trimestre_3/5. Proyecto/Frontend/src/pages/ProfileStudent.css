@@ -1,0 +1,13 @@
+.tab-container {
+    display: flex;
+  }
+  
+  .profile-config-container {
+    background-color: #ffffff;
+    width: 84%;
+  }
+  
+  .text-course {
+    display: block;
+    margin: 20px 0 10px 0; 
+  }
