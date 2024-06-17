@@ -6,8 +6,8 @@ require('dotenv').config();
 
 // Routes
 const userRoutes = require('./routes/users.routes');
-const teacherRoutes = require('./routes/teacher.routes');
-
+const statusRoutes = require('./routes/status.routes');
+const coursesRoutes = require('./routes/courses.routes');
 
 // Middlewares
 
@@ -38,7 +38,9 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
 // Routes configuration
-app.use('/api/v1', userRoutes, teacherRoutes);
+app.use('/api/v1/users', userRoutes,);
+app.use('/api/v1/status', statusRoutes,); // courses and lessons status
+app.use('/api/v1/courses', coursesRoutes,);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

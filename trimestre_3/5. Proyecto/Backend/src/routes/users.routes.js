@@ -9,6 +9,7 @@ const {
     getUsers,
     getUserById
 } = require('../controllers/users.controller');
+
 const { loginUser } = require('../controllers/auth.controller');
 
 const { authenticateToken } = require('../middlewares/authenticateToken');
@@ -22,14 +23,14 @@ router.post('/login', loginUser);
 // Private routes
 router.use(authenticateToken)
 
-router.get('/users', checkRole('support' || 'admin' || 'teacher'), getUsers);
+router.get('/', checkRole('admin', 'support', 'teacher'), getUsers);
 
-router.get('/users/:id', checkRole('support' || 'admin' || 'teacher' || 'student'), getUserById);
+router.get('/:id', checkRole('admin', 'support', 'teacher', 'student'), getUserById);
 
-router.put('/users/:id', checkRole('support' || 'admin' || 'teacher' || 'student'), updateUser);
+router.put('/:id', checkRole('admin', 'support', 'teacher', 'student'), updateUser);
 
-router.put('/users/:id/role', checkRole('support' || 'admin'), updateUserRole);
+router.put('/:id/role', checkRole('admin', 'support'), updateUserRole);
 
-router.delete('/users/:id', checkRole('support' || 'admin' || 'teacher' || 'student'), deleteUser);
+router.delete('/:id', checkRole('admin', 'support', 'teacher', 'student'), deleteUser);
 
 module.exports = router;
