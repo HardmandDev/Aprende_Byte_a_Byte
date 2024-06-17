@@ -9,6 +9,7 @@ import Login from "./components/guest/Login";
 import SignUp from './components/guest/SignUp';
 import Courses from './components/guest/Courses';
 import Course from './components/guest/Course';
+import Admin from './pages/Admin';
 
 
 function App() {
@@ -23,6 +24,8 @@ function App() {
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/courses" element={<Courses />} />
         <Route path="/courses/js" element={<Course />} />
+        <Route path="/admin" element={<Admin />} />
+        
       </Routes>
       <Footer />
     </>
