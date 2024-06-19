@@ -80,7 +80,8 @@ const updateUser = async (req, res) => {
 
         res.status(200).json(updatedUser);
     } catch (error) {
-        res.status(500).json({ error: 'Error updating user', details: error.message });
+        console.error('Error updating user:', error);
+        res.status(500).json({ error: 'Error updating user', details: error.message, errorType: error.name, stackTrace: error.stack });
     }
 };
 
