@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -11,14 +11,18 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import authService from "../../services/authService";
+import useNavigateToRole from "../../hooks/useNavigateToRole";
 
 export default function SignUp() {
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    first_name: "",
+    last_name: "",
     email: "",
-    password: ""
+    password: "",
   });
+  const navigate = useNavigate();
+  const navigateToRole = useNavigateToRole();
 
   const handleChange = (e) => {
     setFormData({
@@ -30,14 +34,24 @@ export default function SignUp() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("https://jp9dtqt5-3000.use2.devtunnels.ms/api/v1/register", formData);
+      const response = await axios.post(
+        "https://jp9dtqt5-3000.use2.devtunnels.ms/api/v1/users/signup",
+        formData
+      );
       console.log(response.data);
       alert("La cuenta se creó exitosamente");
+      navigate("/auth/login"); // Redirige al usuario a la página de inicio de sesión después de registrarse
     } catch (error) {
       console.error("Error al enviar los datos:", error);
-      
     }
   };
+
+  useEffect(() => {
+    if (authService.isAuthenticated()) {
+      const decodedToken = authService.decodeToken();
+      navigateToRole(decodedToken.role_id);
+    }
+  }, [navigateToRole]);
 
   return (
     <Card className="mx-auto max-w-sm">
@@ -52,23 +66,23 @@ export default function SignUp() {
           <div className="grid gap-4">
             <div className="grid grid-cols-2 gap-4">
               <div className="grid gap-2">
-                <Label htmlFor="firstName">Nombres</Label>
+                <Label htmlFor="first_name">Nombres</Label>
                 <Input
-                  id="firstName"
-                  name="firstName"
+                  id="first_name"
+                  name="first_name"
                   placeholder="Andres Felipe"
-                  value={formData.firstName}
+                  value={formData.first_name}
                   onChange={handleChange}
                   required
                 />
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="lastName">Apellidos</Label>
+                <Label htmlFor="last_name">Apellidos</Label>
                 <Input
-                  id="lastName"
-                  name="lastName"
+                  id="last_name"
+                  name="last_name"
                   placeholder="Rodriguez Gonzalez"
-                  value={formData.lastName}
+                  value={formData.last_name}
                   onChange={handleChange}
                   required
                 />
@@ -104,7 +118,7 @@ export default function SignUp() {
           </div>
           <div className="mt-4 text-center text-sm">
             ¿Ya tienes una cuenta? <br />
-            <Link to="/login" className="underline">
+            <Link to="/auth/login" className="underline">
               Inicia sesión
             </Link>
           </div>

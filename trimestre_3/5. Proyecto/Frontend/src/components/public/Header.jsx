@@ -2,39 +2,30 @@ import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button"
 import { useState } from 'react';
 
-
-
-
 export default function Header() {
-  const [valor, setValor] = useState("Register");
-  const [link, setLink] = useState("/sign-up");
-  
+  const [valor, setValor] = useState("Registrarse");
+  const [link, setLink] = useState("/auth/signup");
+
   const handleButtonClick = () => {
-    if (valor === "Register" && link === "/sign-up") {
-      setValor("LogIn");
-      setLink("/login");
-    } else if (valor === "LogIn" && link === "/login") {
-      setValor("Register");
-      setLink("/sign-up");
+    if (valor === "Registrarse" && link === "/auth/signup") {
+      setValor("Iniciar sesión");
+      setLink("/auth/login");
+    } else if (valor === "Iniciar sesión" && link === "/auth/login") {
+      setValor("Registrarse");
+      setLink("/auth/signup");
     }
-    console.log(valor + link);
   };
 
   return (
     <nav className="bg-gray-800 text-white py-4 px-6">
       <div className="container mx-auto flex items-center justify-between">
         <Link to="/" className="text-xl font-bold text-center">
-          Aprende Byte a Byte
+          <img src="/APRENDE-removebg-preview.png" alt="Logo" className="image-logo" />
         </Link>
         <ul className="flex space-x-6">
           <li>
-            <Link to="/" className="hover:text-gray-400">
-              Home
-            </Link>
-          </li>
-          <li>
-            <Link to="/profile" className="hover:text-gray-400">
-              Profile
+            <Link to="/courses" className="hover:text-gray-400">
+              Cursos
             </Link>
           </li>
           <li>

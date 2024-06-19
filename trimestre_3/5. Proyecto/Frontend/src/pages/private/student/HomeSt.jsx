@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { jwtDecode } from 'jwt-decode';
-import Sidebar from '@/components/auth/student/Sidebar';
+import Sidebar from '@/components/private/student/Sidebar';
+// import Sidebar from '../../../components/private/student/Sidebar';
 import './HomeSt.css';
 
 export default function HomeSt() {

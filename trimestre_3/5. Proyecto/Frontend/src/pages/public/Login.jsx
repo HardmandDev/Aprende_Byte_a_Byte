@@ -1,36 +1,79 @@
-import { useState } from 'react';
-import axios from 'axios';
+import { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { jwtDecode } from "jwt-decode";
-
+import authService from '../../services/authService';
+import { AuthContext } from '../../context/AuthContext';
+import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom'
 
 export default function Login() {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   });
+  const { login } = useContext(AuthContext);
 
   const navigate = useNavigate();
+
+  const navigateToRole = (roleId) => {
+    switch (roleId) {
+      case '8c890948-5402-40e6-a38d-6f2df9e3b4db':
+        navigate('/student');
+        break;
+      case 'f3d9324c-ecbd-4d1b-bc92-dbe75ff149db':
+        navigate('/teacher');
+        break;
+      case '7bf4770d-ab11-4aba-9e0a-991b3f162488':
+        navigate('/admin');
+        break;
+      case '6126917f-f7e3-4ee8-a5a1-16e3b128f26b':
+        navigate('/support');
+        break;
+      default:
+        navigate('/profile');
+    }
+  };
+
+  useEffect(() => {
+    const handleNavigation = () => {
+      if (authService.isAuthenticated()) {
+        const decodedToken = authService.decodeToken();
+        navigateToRole(decodedToken.role_id);
+      }
+    };
+
+    handleNavigation(); // Llamar la función para manejar la navegación
+
+    // Puedes optar por agregar o no agregar dependencias aquí
+  }, []);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("https://jp9dtqt5-3000.use2.devtunnels.ms/api/v1/login", formData);
-      const { token } = response.data;
-      console.log(response.data);
+      const decodedUser = await authService.login(formData.email, formData.password);
+      console.log('Datos decodificados del JWT:', decodedUser);
+  
+      if (!decodedUser || !decodedUser.role_id) {
+        throw new Error('Usuario no válido o sin rol definido');
+      }
+  
+      login(formData.email, formData.password); // Actualiza el contexto con los datos del usuario
+      navigateToRole(decodedUser.role_id); // Redirige según el rol del usuario
+  
+      // Comprobar si hay un token JWT en localStorage después de iniciar sesión
+      const token = authService.getToken();
       if (token) {
-        localStorage.setItem('token', token); // Almacena el JWT en localStorage
-        const decoded = jwtDecode(token); // Decodifica el JWT
-        console.log('Decoded JWT data:', decoded);
-        // Navegar a otra ruta después del inicio de sesión exitoso
-        navigate('/HomeSt');
+        const decodedToken = authService.decodeToken(token);
+        navigateToRole(decodedToken.role_id);
       } else {
-        alert("Inicio de sesión fallido");
+        throw new Error('No se encontró un token después de iniciar sesión');
       }
     } catch (error) {
-      console.error("Error al enviar los datos:", error.response ? error.response.data : error.message);
+      console.error("Error al iniciar sesión:", error);
+      alert("Error al iniciar sesión. Por favor, verifica tus credenciales.");
     }
   };
+  
 
   const handleChange = (e) => {
     setFormData({
@@ -92,22 +135,21 @@ export default function Login() {
               />
             </div>
           </div>
-
           <div>
-            <button
+            <Button
               type="submit"
               className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
               Iniciar sesión
-            </button>
+            </Button>
           </div>
         </form>
 
         <p className="mt-10 text-center text-sm text-gray-500">
           ¿No tienes cuenta?{' '}
-          <a href="#" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
+          <Link to="/auth/signup" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
             Regístrate
-          </a>
+          </Link>
         </p>
       </div>
     </div>

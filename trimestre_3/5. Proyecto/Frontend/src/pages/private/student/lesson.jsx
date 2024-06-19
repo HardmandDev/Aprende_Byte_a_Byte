@@ -1,7 +1,6 @@
 import {Header,Sidebar,MainContent} from "../components/auth/student/Lesson"
 
 
-
 export default function Lesson() {
     const [editorContent, setEditorContent] = useState(`const a = 5;\nmodule.exports = a;`);
     const [testOutput, setTestOutput] = useState({ success: true, message: "a should equal 5 - Test Passed" });
