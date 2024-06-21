@@ -97,7 +97,7 @@ const PrivateRoutes = () => {
           </PrivateRoute>
         }
       />
-      <Route path="*" element={<Navigate to="/auth/login" replace />} />
+      <Route path="/test" element={<Navigate to="/auth/login" replace />} />
       <Route path="/unauthorized" element={<UnauthorizedPage />} />
     </Routes>
   );
