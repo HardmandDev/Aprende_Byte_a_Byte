@@ -53,14 +53,42 @@ const createUser = async (userData) => {
 
 // Used by the loginUser function of auth.controller.js
 const findUserByEmail = async (email) => {
-    const res = await pool.query(
-        `SELECT users.id, users.first_name, users.last_name, users.email, users.role_id, user_credentials.password
+    try {
+        const res = await pool.query(
+        `SELECT users.id, users.first_name, users.last_name, users.email, users.role_id, user_credentials.password, roles.role
          FROM public.users
          JOIN user_credentials ON users.id = user_credentials.user_id
+         JOIN roles ON users.role_id = roles.id
          WHERE users.email = $1`,
-        [email]
-    );
-    return res.rows[0];
+            [email]
+        );
+        console.log('Usuario encontrado:', res.rows[0]); // Agrega este log
+        return res.rows[0];
+    } catch (error) {
+        console.error('Error al buscar usuario:', error); // Agrega este log
+        throw error;
+    }
+
+};
+
+const findUserByEmailNUEVA = async (email) => {
+    try {
+        const res = await pool.query(
+            `SELECT users.id, users.first_name, users.last_name, users.email, roles.name AS role_name, user_credentials.password
+             FROM public.users
+             JOIN user_credentials ON users.id = user_credentials.user_id
+             JOIN roles ON users.role_id = roles.id
+             WHERE users.email = $1`,
+            [email]
+        );
+
+        console.log('Usuario encontrado:', res.rows[0]); // Agrega este log
+
+        return res.rows[0];
+    } catch (error) {
+        console.error('Error al buscar usuario:', error); // Agrega este log
+        throw error;
+    }
 };
 
 // Used by the updateUser function of users.controller.js
@@ -74,7 +102,7 @@ const updateUser = async (userId, userData) => {
         // Update the role in the 'users' table
         await client.query(
             `UPDATE users SET email = $1, document_type_id = $2, document = $3, first_name = $4, last_name = $5 WHERE id = $6`,
-            [ email, document_type_id, document, first_name, last_name, userId]
+            [email, document_type_id, document, first_name, last_name, userId]
         );
 
         // Update the password in the 'user_credentials' table

@@ -46,7 +46,7 @@ export default function SupportTable() {
   //   const token = localStorage.getItem('token')
   //   if (!token) {
   //     // Redirigir al usuario al login si no hay token
-  //     navigate('/login')
+  //     navigate('/auth/login')
   //     return;
   //   }
   //   const decodedToken = jwtDecode(token)

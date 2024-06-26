@@ -1,79 +1,34 @@
-import { useState, useContext, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import authService from '../../services/authService';
-import { AuthContext } from '../../context/AuthContext';
-import { Button } from '@/components/ui/button';
-import { Link } from 'react-router-dom'
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import authService from "../../services/authService";
+import useNavigateToRole from "../../hooks/useNavigateToRole";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 export default function Login() {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
+    captchaInput: '',
   });
-  const { login } = useContext(AuthContext);
-
-  const navigate = useNavigate();
-
-  const navigateToRole = (roleId) => {
-    switch (roleId) {
-      case '8c890948-5402-40e6-a38d-6f2df9e3b4db':
-        navigate('/student');
-        break;
-      case 'f3d9324c-ecbd-4d1b-bc92-dbe75ff149db':
-        navigate('/teacher');
-        break;
-      case '7bf4770d-ab11-4aba-9e0a-991b3f162488':
-        navigate('/admin');
-        break;
-      case '6126917f-f7e3-4ee8-a5a1-16e3b128f26b':
-        navigate('/support');
-        break;
-      default:
-        navigate('/profile');
-    }
-  };
+  const [captchaNumbers, setCaptchaNumbers] = useState({ num1: 0, num2: 0 });
+  const [captchaResult, setCaptchaResult] = useState(0);
+  const [error, setError] = useState("");
+  const navigateToRole = useNavigateToRole();
 
   useEffect(() => {
-    const handleNavigation = () => {
-      if (authService.isAuthenticated()) {
-        const decodedToken = authService.decodeToken();
-        navigateToRole(decodedToken.role_id);
-      }
-    };
+    generateCaptcha();
+  }, []); // Generar captcha al montar el componente
 
-    handleNavigation(); // Llamar la función para manejar la navegación
-
-    // Puedes optar por agregar o no agregar dependencias aquí
-  }, []);
-
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const decodedUser = await authService.login(formData.email, formData.password);
-      console.log('Datos decodificados del JWT:', decodedUser);
-  
-      if (!decodedUser || !decodedUser.role_id) {
-        throw new Error('Usuario no válido o sin rol definido');
-      }
-  
-      login(formData.email, formData.password); // Actualiza el contexto con los datos del usuario
-      navigateToRole(decodedUser.role_id); // Redirige según el rol del usuario
-  
-      // Comprobar si hay un token JWT en localStorage después de iniciar sesión
-      const token = authService.getToken();
-      if (token) {
-        const decodedToken = authService.decodeToken(token);
-        navigateToRole(decodedToken.role_id);
-      } else {
-        throw new Error('No se encontró un token después de iniciar sesión');
-      }
-    } catch (error) {
-      console.error("Error al iniciar sesión:", error);
-      alert("Error al iniciar sesión. Por favor, verifica tus credenciales.");
-    }
+  const generateCaptcha = () => {
+    const num1 = Math.floor(Math.random() * 10); // Número aleatorio entre 0 y 9
+    const num2 = Math.floor(Math.random() * 10); // Número aleatorio entre 0 y 9
+    const result = num1 + num2;
+    setCaptchaNumbers({ num1, num2 });
+    setCaptchaResult(result);
   };
-  
 
   const handleChange = (e) => {
     setFormData({
@@ -82,76 +37,103 @@ export default function Login() {
     });
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (parseInt(formData.captchaInput) !== captchaResult) {
+      setError("La respuesta del captcha es incorrecta. Por favor, intenta de nuevo.");
+      generateCaptcha(); // Generar un nuevo captcha
+      return;
+    }
+
+    try {
+      const decodedToken = await authService.login(formData.email, formData.password);
+      console.log("Inicio de sesión exitoso:", decodedToken);
+      navigateToRole(decodedToken.role);
+    } catch (error) {
+      console.error("Error al enviar los datos:", error);
+      if (error.response && error.response.status === 401) {
+        setError("Correo o contraseña incorrectos. Por favor, verifica tus credenciales.");
+      } else {
+        setError("Ocurrió un error al intentar iniciar sesión. Por favor, intenta de nuevo más tarde.");
+      }
+    }
+  };
+
   return (
-    <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+    <Card className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 mx-auto max-w-sm">
+      <CardHeader>
+        <CardTitle className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight">
           Iniciar sesión
-        </h2>
-      </div>
-      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
         <form className="space-y-6" method='POST' onSubmit={handleSubmit}>
           <div>
-            <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
-              Correo
-            </label>
-            <div className="mt-2">
-              <input
-                id="email"
-                name="email"
-                type="email"
-                placeholder="aprende-byte@gmail.com"
-                autoComplete="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
-            </div>
+            <Label htmlFor="email">Correo</Label>
+            <Input
+              id="email"
+              name="email"
+              type="email"
+              placeholder="usuario@abb.com"
+              autoComplete="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
           </div>
-
           <div>
             <div className="flex items-center justify-between">
-              <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
-                Contraseña
-              </label>
+              <Label htmlFor="password">Contraseña</Label>
               <div className="text-sm">
                 <a href="#" className="font-semibold text-indigo-600 hover:text-indigo-500">
                   ¿Has olvidado tu contraseña?
                 </a>
               </div>
             </div>
-            <div className="mt-2">
-              <input
-                id="password"
-                name="password"
-                type="password"
-                value={formData.password}
-                onChange={handleChange}
-                autoComplete="current-password"
-                placeholder="••••••••"
-                required
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
-            </div>
+            <Input
+              id="password"
+              name="password"
+              type="password"
+              value={formData.password}
+              onChange={handleChange}
+              autoComplete="current-password"
+              placeholder="••••••••"
+              required
+            />
           </div>
           <div>
-            <Button
-              type="submit"
-              className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            >
-              Iniciar sesión
-            </Button>
+            <div className="flex items-center justify-between">
+              <Label htmlFor="captchaInput">Resuelve la suma: {captchaNumbers.num1} + {captchaNumbers.num2} =</Label>
+            </div>
+            <Input
+              id="captchaInput"
+              name="captchaInput"
+              type="text"
+              value={formData.captchaInput}
+              onChange={handleChange}
+              autoComplete="off"
+              required
+            />
           </div>
+          {error && (
+            <div className="text-red-500 text-sm mt-1">
+              {error}
+            </div>
+          )}
+          <Button
+            type="submit"
+            className="w-full"
+          >
+            Iniciar sesión
+          </Button>
         </form>
-
         <p className="mt-10 text-center text-sm text-gray-500">
           ¿No tienes cuenta?{' '}
           <Link to="/auth/signup" className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">
             Regístrate
           </Link>
         </p>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 }

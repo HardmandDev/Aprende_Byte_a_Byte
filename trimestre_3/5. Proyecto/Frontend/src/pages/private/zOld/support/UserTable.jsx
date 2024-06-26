@@ -1,19 +1,34 @@
 import { useState, useEffect } from 'react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
-import userService from '../../../services/userService';
+import userService from '../../../../services/userService';
 import { useNavigate } from 'react-router-dom';
+import authService from '../../../../services/authService';
 
 const roleMap = {
-    "8c890948-5402-40e6-a38d-6f2df9e3b4db": "student",
-    "f3d9324c-ecbd-4d1b-bc92-dbe75ff149db": "teacher",
-    "6126917f-f7e3-4ee8-a5a1-16e3b128f26b": "support",
-    "7bf4770d-ab11-4aba-9e0a-991b3f162488": "admin"
+    "8c890948-5402-40e6-a38d-6f2df9e3b4db": "Estudiante",
+    "f3d9324c-ecbd-4d1b-bc92-dbe75ff149db": "Docente",
+    "6126917f-f7e3-4ee8-a5a1-16e3b128f26b": "Soporte",
+    "7bf4770d-ab11-4aba-9e0a-991b3f162488": "Administrador"
 };
 
 export default function UserTable() {
+    const [currentUser, setCurrentUser] = useState({
+        role: '',
+      });
     const [users, setUsers] = useState([]);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+          const role = authService.decodeToken('user');
+          setCurrentUser({
+            role: role.role,
+          });
+        }
+      }, []);
+
     useEffect(() => {
         async function fetchUsers() {
             try {
@@ -29,7 +44,7 @@ export default function UserTable() {
 
     const handleEdit = (id) => {
         // Redirige al componente EditUser.jsx con el ID del usuario
-        navigate(`/edit-user/${id}`);
+        navigate(`/${currentUser.role}/manage-users/edit-user/${id}`);
     };
 
     const handleDelete = async (id) => {

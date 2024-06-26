@@ -18,7 +18,6 @@ const { checkRole } = require('../middlewares/checkRole');
 // Public routes
 router.post('/signup', createUser);
 
-
 router.post('/login', loginUser);
 
 // Private routes

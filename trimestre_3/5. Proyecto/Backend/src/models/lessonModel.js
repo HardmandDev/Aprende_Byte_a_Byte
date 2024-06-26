@@ -74,28 +74,25 @@ const updateLesson = async (lesson) => {
 }
 
 // Used by the updateStatusLesson function of admin.controller.js
-const updateStatusLesson = async (lesson) => {
+const updateStatusLesson = async (lessonId, lessonData) => {
+    const { status, user_admin_id } = lessonData;
     const client = await pool.connect();
+
     try {
         await client.query('BEGIN');
 
         await client.query(
             `
-            UPDATE lessons SET 
-                status = $1, 
-                user_admin_id = $2 
+            UPDATE lessons SET
+                status = $1,
+                user_admin_id = $2
             WHERE id = $3
             `,
-            [
-                lesson.status,
-                lesson.user_admin_id,
-                lesson.id
-            ]
+            [status, user_admin_id, lessonId]
         );
 
-        await client.query('COMMIT');
-        return { id: lesson.id, status: lesson.status };
-
+        await client.query('COMMIT')
+        return { id: lessonId, status }
     } catch (error) {
         await client.query('ROLLBACK');
         throw error;
@@ -104,7 +101,7 @@ const updateStatusLesson = async (lesson) => {
     }
 };
 
-const deleteCourse = async (id) => {
+const deleteLesson = async (id) => {
     const res = await pool.query(
         `
         DELETE FROM lessons 
@@ -121,5 +118,5 @@ module.exports = {
     createLesson,
     updateLesson,
     updateStatusLesson,
-    deleteCourse,
+    deleteLesson,
 };

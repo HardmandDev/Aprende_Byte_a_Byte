@@ -13,6 +13,6 @@ router.use(authenticateToken);
 
 router.put('/:course_id', checkRole('admin'), updateStatusCourse);
 
-router.put('/:course_id/lessons/:lesson_id', checkRole('admin'), updateStatusLesson);
+router.put('/lesson/:lesson_id', checkRole('admin'), updateStatusLesson);
 
 module.exports = router;

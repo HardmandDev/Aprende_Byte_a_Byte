@@ -5,6 +5,7 @@ require('dotenv').config();
 function generateToken(user) {
   const payload = {
     id: user.id,
+    role: user.role,
     role_id: user.role_id,
     first_name: user.first_name,
     last_name: user.last_name,

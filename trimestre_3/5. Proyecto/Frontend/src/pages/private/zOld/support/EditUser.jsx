@@ -1,9 +1,8 @@
-import "../Profile.css";
+// import "../Profile.css";
 import { Button } from "@/components/ui/button";
-import Sidebar from '@/components/private/student/Sidebar';
-import '../student/HomeSt.css';
-import userService from '../../../services/userService';
-import authService from '../../../services/authService';
+import '../student/Home.css';
+import userService from '../../../../services/userService';
+import authService from '../../../../services/authService';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import {
@@ -77,9 +76,26 @@ export default function EditUser() {
         fetchUserData();
     }, [id]);
 
+    // const handleDocumentTypeChange = (value) => {
+    //     setSelectedDocumentType(value);
+    //     setUserData({ ...userData, document_type_id: reverseDocumentTypeMap[value] });
+    // };
+
     const handleDocumentTypeChange = (value) => {
         setSelectedDocumentType(value);
-        setUserData({ ...userData, document_type_id: reverseDocumentTypeMap[value] });
+        const documentTypeId = reverseDocumentTypeMap[value];
+        // Verifica que documentTypeId sea un UUID válido antes de asignarlo
+        if (isValidUUID(documentTypeId)) {
+            setUserData({ ...userData, document_type_id: documentTypeId });
+        } else {
+            console.error(`Valor no válido para document_type_id: ${documentTypeId}`);
+        }
+    };
+
+    // Función auxiliar para verificar si una cadena es un UUID válido
+    const isValidUUID = (uuid) => {
+        const uuidPattern = /^[a-f\d]{8}-([a-f\d]{4}-){3}[a-f\d]{12}$/i;
+        return uuidPattern.test(uuid);
     };
 
     const handleRolesChange = (value) => {
@@ -89,50 +105,32 @@ export default function EditUser() {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setUserData({ ...userData, [name]: value });
+        setUserData(prevUserData => ({ ...prevUserData, [name]: value }));
     };
-
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault();
-    //     try {
-    //         const { first_name, last_name, email, document_type_id, document, password } = userData;
-    //         const updatedUserData = { first_name, last_name, email, document_type_id, document, password };
-    //         const user = await userService.updateUser(id, updatedUserData);
-    //         if (user) {
-    //             alert('Perfil actualizado con éxito');
-    //             // Actualizar los datos de usuario después de la actualización
-    //             const updatedUser = await userService.getUser(id);
-    //             setUserData(updatedUser);
-    //         } else {
-    //             console.error('No se pudo obtener el ID del usuario desde el token.');
-    //         }
-    //     } catch (error) {
-    //         console.error('Error al actualizar perfil:', error);
-    //     }
-    // };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const user = await userService.updateUser(id, {
-                first_name: userData.first_name,
-                last_name: userData.last_name,
-                email: userData.email,
-                document_type_id: userData.document_type_id,
-                document: userData.document,
-                password: userData.password,
-            }
-            );
-            console.log(user);
-            if (user) {
+            const updatedUser = await userService.updateUser(id, userData);
+            if (updatedUser) {
                 alert('Datos del usuario actualizados con éxito');
             } else {
                 console.error('No se pudo actualizar los datos del usuario.');
             }
         } catch (error) {
-            console.error('Error al actualizar los datos del usuario:', error);
+            if (error.response) {
+                // El servidor respondió con un status code fuera del rango 2xx
+                console.error('Error al actualizar los datos del usuario:', error.response.data);
+            } else if (error.request) {
+                // La solicitud fue hecha pero no se recibió respuesta
+                console.error('No se recibió respuesta del servidor al actualizar los datos del usuario.');
+            } else {
+                // Ocurrió un error antes de realizar la solicitud
+                console.error('Error al enviar la solicitud de actualización:', error.message);
+            }
         }
     };
+
 
     const handleRoleUpdate = async () => {
         try {
@@ -149,7 +147,6 @@ export default function EditUser() {
 
     return (
         <article className="tab-container">
-            <Sidebar />
             <div className="profile-config-container">
                 <main className="flex flex-col items-center w-full flex-1 px-4 py-8">
                     <h2 className="text-3xl font-bold mb-8">Configuración del perfil</h2>
@@ -157,11 +154,11 @@ export default function EditUser() {
                         <form className="space-y-4" onSubmit={handleSubmit}>
                             <div>
                                 <label className="block text-gray-700">Nombres</label>
-                                <input type="text" name="first_name" className="w-full px-3 py-2 border rounded" value={userData.first_name} onChange={handleChange} />
+                                <input type="text" name="first_name" className="w-full px-3 py-2 border rounded  text-gray-700" value={userData.first_name} onChange={handleChange} />
                             </div>
                             <div>
                                 <label className="block text-gray-700">Apellidos</label>
-                                <input type="text" name="last_name" className="w-full px-3 py-2 border rounded" value={userData.last_name} onChange={handleChange} />
+                                <input type="text" name="last_name" className="w-full px-3 py-2 border rounded  text-gray-700" value={userData.last_name} onChange={handleChange} />
                             </div>
                             <div>
                                 <label className="block text-gray-700">Tipo de documento</label>
@@ -183,7 +180,7 @@ export default function EditUser() {
                             </div>
                             <div>
                                 <label className="block text-gray-700">Número de documento</label>
-                                <input type="text" name="document" className="w-full px-3 py-2 border rounded" value={userData.document} onChange={handleChange} />
+                                <input type="text" name="document" className="w-full px-3 py-2 border rounded text-gray-700" value={userData.document} onChange={handleChange} />
                             </div>
                             <div>
                                 <label className="block text-gray-700">Rol</label>
@@ -204,11 +201,11 @@ export default function EditUser() {
                             </div>
                             <div>
                                 <label className="block text-gray-700">Correo Electrónico</label>
-                                <input type="email" name="email" className="w-full px-3 py-2 border rounded" value={userData.email} onChange={handleChange} />
+                                <input type="email" name="email" className="w-full px-3 py-2 border rounded text-gray-700" value={userData.email} onChange={handleChange} />
                             </div>
                             <div>
                                 <label className="block text-gray-700">Nueva Contraseña</label>
-                                <input type="password" name="password" className="w-full px-3 py-2 border rounded" value={userData.password} onChange={handleChange} />
+                                <input type="password" name="password" className="w-full px-3 py-2 border rounded text-gray-700" value={userData.password} onChange={handleChange} />
                             </div>
                             <Button className="w-full mt-4" type="submit">Actualizar perfil</Button>
                         </form>

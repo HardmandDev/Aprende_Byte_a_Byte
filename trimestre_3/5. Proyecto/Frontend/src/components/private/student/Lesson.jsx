@@ -5,6 +5,9 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import '../../../index.css';
 
+import lessonService from '../../../services/lessonService';
+
+
 // Componente Header
 export const Header = ({ title }) => (
   <div className="bg-blue-600 text-white p-4 flex justify-between items-center w-full">

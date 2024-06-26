@@ -1,19 +1,15 @@
-.scrollArea-container{
+/* .scrollArea-container{
     overflow-y:auto;
-}
-
+} */
+/* 
 .container-home{
     width: 300px;
     height: 38px;
     position: sticky;
-}
+} */
 
 .image-logo{
     height: 100px;
-}
-
-.text-course{
-    line-height: 5;
 }
 
 .container-welcome{

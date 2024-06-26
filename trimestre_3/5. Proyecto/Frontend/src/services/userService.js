@@ -1,7 +1,7 @@
 import axios from 'axios';
 import authService from './authService';
 
-const apiEndpoint = "https://jp9dtqt5-3000.use2.devtunnels.ms/api/v1";
+const apiEndpoint = 'https://jp9dtqt5-3000.use2.devtunnels.ms/api/v1';
 
 const userService = {
     // Función para obtener un usuario
@@ -11,7 +11,7 @@ const userService = {
             console.error('Token no encontrado para la solicitud de usuario.');
             return null;
         }
-    
+
         try {
             const response = await axios.get(`${apiEndpoint}/users/${userId}`, {
                 headers: {
@@ -20,11 +20,11 @@ const userService = {
             });
             return response.data;
         } catch (error) {
-            console.error('Error al obtener datos del usuario:', error);
+            console.error('Error userService.js al obtener datos del usuario:', error);
             return null;
         }
     },
-    
+
 
     // Función para obtener a todos los usuarios
     getUsers: async () => {

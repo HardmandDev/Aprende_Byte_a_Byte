@@ -1,7 +1,4 @@
-import "./Profile.css";
 import { Button } from "@/components/ui/button";
-import Sidebar from '@/components/private/student/Sidebar';
-import './student/HomeSt.css';
 import userService from '../../services/userService';
 import authService from '../../services/authService';
 import { useEffect, useState } from 'react';
@@ -14,6 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import "./Profile.css";
 
 const documentTypeMap = {
   "5c6f2dd1-b178-4c8b-a8b6-7838407ef278": "cc",
@@ -55,7 +53,7 @@ export default function Profile() {
           console.error('No se pudo obtener el ID del usuario desde el token.');
         }
       } catch (error) {
-        console.error('Error al obtener datos del usuario:', error);
+        console.error('Error Profile.jsx al obtener datos del usuario:', error);
       }
     };
 
@@ -77,7 +75,7 @@ export default function Profile() {
     try {
       const decodedUser = authService.decodeToken();
       if (decodedUser && decodedUser.id) {
-        await userService.updateUser(decodedUser.id, userData);
+        await userService.updateUser(userData.id, userData);
         alert('Perfil actualizado con éxito');
       } else {
         console.error('No se pudo obtener el ID del usuario desde el token.');
@@ -89,7 +87,6 @@ export default function Profile() {
 
   return (
     <article className="tab-container">
-      <Sidebar />
       <div className="profile-config-container">
         <main className="flex flex-col items-center w-full flex-1 px-4 py-8">
           <h2 className="text-3xl font-bold mb-8">Configuración del perfil</h2>
@@ -97,11 +94,11 @@ export default function Profile() {
             <form className="space-y-4" onSubmit={handleSubmit}>
               <div>
                 <label className="block text-gray-700">Nombres</label>
-                <input type="text" name="first_name" className="w-full px-3 py-2 border rounded" value={userData.first_name} onChange={handleChange} />
+                <input type="text" name="first_name" className="w-full px-3 py-2 border rounded text-gray-700" value={userData.first_name} onChange={handleChange} />
               </div>
               <div>
                 <label className="block text-gray-700">Apellidos</label>
-                <input type="text" name="last_name" className="w-full px-3 py-2 border rounded" value={userData.last_name} onChange={handleChange} />
+                <input type="text" name="last_name" className="w-full px-3 py-2 border rounded text-gray-700" value={userData.last_name} onChange={handleChange} />
               </div>
               <div>
                 <label className="block text-gray-700">Tipo de documento</label>
@@ -123,15 +120,15 @@ export default function Profile() {
               </div>
               <div>
                 <label className="block text-gray-700">Número de documento</label>
-                <input type="text" name="document" className="w-full px-3 py-2 border rounded" value={userData.document} onChange={handleChange} />
+                <input type="text" name="document" className="w-full px-3 py-2 border rounded text-gray-700" style={{ color: 'black' }} value={userData.document} onChange={handleChange} />
               </div>
               <div>
                 <label className="block text-gray-700">Correo Electrónico</label>
-                <input type="email" name="email" className="w-full px-3 py-2 border rounded" value={userData.email} onChange={handleChange} />
+                <input type="email" name="email" className="w-full px-3 py-2 border rounded text-gray-700" value={userData.email} onChange={handleChange} />
               </div>
               <div>
                 <label className="block text-gray-700">Nueva Contraseña</label>
-                <input type="password" name="password" className="w-full px-3 py-2 border rounded" value={userData.password} onChange={handleChange} />
+                <input type="password" name="password" className="w-full px-3 py-2 border rounded text-gray-700" value={userData.password} onChange={handleChange} />
               </div>
               <Button className="w-full mt-4" type="submit">Actualizar perfil</Button>
             </form>

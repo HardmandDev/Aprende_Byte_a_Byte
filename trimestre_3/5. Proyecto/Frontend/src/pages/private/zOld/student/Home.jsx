@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { jwtDecode } from 'jwt-decode';
-import Sidebar from '@/components/private/student/Sidebar';
-// import Sidebar from '../../../components/private/student/Sidebar';
-import './HomeSt.css';
+import Sidebar from '@/components/private/Sidebar';
 
 export default function HomeSt() {
   const [userName, setUserName] = useState('');

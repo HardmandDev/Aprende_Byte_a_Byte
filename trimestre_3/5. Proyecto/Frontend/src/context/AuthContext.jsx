@@ -1,7 +1,7 @@
-import React, { createContext, useState, useEffect } from 'react';
-import authService from '../services/authService'; // Asegúrate de tener tu servicio de autenticación
+import { createContext, useState, useEffect } from 'react';
+import authService from '../services/authService';
 
-export const AuthContext = createContext();
+const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -17,6 +17,11 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const logout = () => {
+    authService.logout(); // Llama a la función logout del servicio authService
+    setUser(null); // Actualiza el estado user a null
+  };
+
   useEffect(() => {
     const checkAuth = async () => {
       const token = authService.getToken();
@@ -30,7 +35,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, isLoading, login }}> {/* Incluir la función login en el contexto */}
+    <AuthContext.Provider value={{ user, isLoading, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

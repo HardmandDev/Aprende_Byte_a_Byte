@@ -15,7 +15,7 @@ const PublicRoutes = () => {
       <Route path='/' element={<Layout />}>
         <Route index element={<Index />} />
         <Route path="/courses" element={<Courses />} />
-        <Route path="/courses/js" element={<Course />} /> {/* Ingresar :id, cuando se defina la lógica de la ruta */}
+        <Route path="/courses/js" element={<Course />} />
         <Route path="/auth/login" element={<Login />} />
         <Route path="/auth/signup" element={<SignUp />} />
         {/* <Route path="/auth/reset-password" element={<ResetPassword />} /> */}

@@ -6,26 +6,25 @@ const createCourse = async (req, res) => {
             user_teacher_id,
             course_name,
             description,
-            image_url,
             level_id
         } = req.body;
 
-        const newCourse = await courseModel.createCourse(
-            {
-                user_teacher_id,
-                course_name,
-                description,
-                image_url,
-                level_id
-            }
-        );
+        // 'imageFile' viene del campo 'name' del input de tipo file
+        const image_url = `https://jp9dtqt5-3000.use2.devtunnels.ms/${req.file.path.replace(/\\/g, '/')}`; // Obtener la ruta donde multer ha guardado la imagen
+
+        const newCourse = await courseModel.createCourse({
+            user_teacher_id,
+            course_name,
+            description,
+            image_url,
+            level_id
+        });
 
         res.status(201).json(newCourse);
     } catch (error) {
-        res.status(500).json(
-            { error: 'Error creating course', details: error.message });
+        res.status(500).json({ error: 'Error creating course', details: error.message });
     }
-}
+};
 
 const getCourses = async (req, res) => {
     try {
@@ -107,5 +106,5 @@ module.exports = {
     updateCourse,
     getCourses,
     getCourseById,
-    deleteCourse
+    deleteCourse,
 }

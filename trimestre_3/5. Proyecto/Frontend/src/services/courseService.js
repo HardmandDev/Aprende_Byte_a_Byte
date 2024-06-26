@@ -19,7 +19,7 @@ const courseService = {
             });
             return response.data;
         } catch (error) {
-                        console.error('Error al obtener datos del curso:', error);
+            console.error('Error al obtener datos del curso:', error);
             return null;
         }
     },
@@ -32,7 +32,7 @@ const courseService = {
         }
 
         try {
-            const response = await axios.get(`${apiEndpoint}/courses/`, {
+            const response = await axios.get(`${apiEndpoint}/courses`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -44,7 +44,7 @@ const courseService = {
         }
     },
 
-    createCourse: async (courseData) => {
+    createCourse: async (formData) => {
         const token = authService.getToken();
         if (!token) {
             console.error('Token no encontrado para la creación de cursos.');
@@ -52,10 +52,10 @@ const courseService = {
         }
 
         try {
-            const response = await axios.post(`${apiEndpoint}/courses/create`, courseData, {
+            const response = await axios.post(`${apiEndpoint}/courses/create`, formData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'multipart/form-data', // Importante usar 'multipart/form-data' para enviar archivos
                 },
             });
             return response.data;
@@ -94,7 +94,7 @@ const courseService = {
         }
 
         try {
-            const response = await             axios.delete(`${apiEndpoint}/courses/${id}`, {
+            const response = await axios.delete(`${apiEndpoint}/courses/${id}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -106,29 +106,29 @@ const courseService = {
         }
     },
 
-    updateCourseStatus: async (courseId, status, userAdminId) => {
+    updateCourseStatus: async (courseId, status) => {
         const token = authService.getToken();
         if (!token) {
-          console.error('Token no encontrado para la actualización de estado del curso.');
-          return null;
+            console.error('Token no encontrado para la actualización de estado del curso.');
+            return null;
         }
-    
+
         try {
-          const response = await axios.put(`${apiEndpoint}/status/${courseId}`, {
-            status,
-            user_admin_id: userAdminId
-          }, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              'Content-Type': 'application/json',
-            },
-          });
-          return response.data;
+            const response = await axios.put(`${apiEndpoint}/status/${courseId}`, {
+                status
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+            });
+            console.log('Respuesta de la actualización del curso:', response.data);
+            return response.data;
         } catch (error) {
-          console.error('Error al actualizar estado del curso:', error);
-          return null;
+            console.error('Error al actualizar estado del curso:', error);
+            return null;
         }
-      },
+    },
 };
 
 export default courseService;

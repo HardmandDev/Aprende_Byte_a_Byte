@@ -1,104 +1,82 @@
-import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
-import { useContext } from 'react';
-import { AuthContext } from '../context/AuthContext.jsx';
+/* eslint-disable react/prop-types */
+import { Routes, Route, Navigate } from 'react-router-dom';
+import authService from '../services/authService';
 
+// Importar todas las páginas privadas necesarias
+import Layout from '../pages/private/Layout';
+import LayoutSupport from '../pages/private/zOld/support/LayoutSupport';
 import Profile from '../pages/private/Profile';
-import EditUser from '../pages/private/support/EditUser.jsx'
+import StudentDashboard from '../pages/private/student/StudentDashboard';
+import Certification from '../pages/private/student/Certification';
+import Lesson from '../pages/private/zOld/student/lesson'; // Ajusta la ruta de Lesson según sea necesario
 
-import Student from '../pages/private/student/HomeSt.jsx';
-import Support from '../pages/private/support/Index.jsx';
-import Admin from '../pages/private/admin/Admin.jsx';
-import Teacher from '../pages/private/teacher/Index.jsx';
+import SupportDashboard from '../pages/private/support/SupportDashboard'
+import EditUser from '../pages/private/zOld/support/EditUser'
 
-import CreateCourseAndLessons from '../pages/private/teacher/CreateCourseAndLessons.jsx'
+import LayoutAdmin from '../pages/private/zOld/admin/LayoutAdmin'
+import Admin from '../pages/private/zOld/admin/Admin'
+import AdminDashboard from '../pages/private/zOld/admin/AdminDashboard'
+import TeacherDashboard from '../pages/private/zOld/teacher/TeacherDashboard'
+import CreateCourse from '../pages/private/zOld/teacher/CreateCourse'
+import CoursesList from '../pages/private/teacher/CoursesList'
 
-import UnauthorizedPage from '../pages/UnauthorizedPage.jsx'; //No existe por ahora
+import UserTable from '../pages/private/zOld/support/UserTable';
+import TableLessons from '../pages/private/zOld/admin/TableLessons';
+import EditCourse from '../pages/private/zOld/teacher/EditCourse';
+import CreateLesson from '../pages/private/zOld/teacher/CreateLesson';
 
-const PrivateRoute = ({ children, roles }) => {
-  const { user, isLoading } = useContext(AuthContext);
 
-  if (isLoading) {
-    return <div>Cargando...</div>;
-  }
 
-  if (!user) {
+const PrivateRoute = ({ element , roles }) => {
+  const isAuthenticated = authService.isAuthenticated();
+  const userRole = authService.getUser();
+
+  if (!isAuthenticated) {
     return <Navigate to="/auth/login" replace />;
   }
 
-  if (roles && !roles.includes(user.role_id)) {
-    // Redireccionar a una página de acceso no autorizado o a una página predeterminada
-    return <Route path="/unauthorized" element={<UnauthorizedPage />} />;
+  if (roles && !roles.includes(userRole.role)) {
+    return <Navigate to="/unauthorized" replace />;
   }
 
-  return children;
+  return element;
 };
 
 const PrivateRoutes = () => {
   return (
     <Routes>
-      <Route
-        path="/profile"
-        element={
-          <PrivateRoute roles={
-            ['8c890948-5402-40e6-a38d-6f2df9e3b4db',
-              '6126917f-f7e3-4ee8-a5a1-16e3b128f26b',
-              '7bf4770d-ab11-4aba-9e0a-991b3f162488',
-              'f3d9324c-ecbd-4d1b-bc92-dbe75ff149db'
-            ]}>
-            <Profile />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/student"
-        element={
-          <PrivateRoute roles={['8c890948-5402-40e6-a38d-6f2df9e3b4db']}>
-            <Student />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/support"
-        element={
-          <PrivateRoute roles={['6126917f-f7e3-4ee8-a5a1-16e3b128f26b']}>
-            <Support />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/edit-user/:id"
-        element={
-          <PrivateRoute roles={['6126917f-f7e3-4ee8-a5a1-16e3b128f26b']}>
-            <EditUser />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/admin"
-        element={
-          <PrivateRoute roles={['7bf4770d-ab11-4aba-9e0a-991b3f162488']}>
-            <Admin />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/teacher"
-        element={
-          <PrivateRoute roles={['f3d9324c-ecbd-4d1b-bc92-dbe75ff149db']}>
-            <Teacher />
-          </PrivateRoute>
-        }
-      />
-      <Route 
-        path='/create-course'
-        element={
-          <PrivateRoute>
-            <CreateCourseAndLessons/>
-          </PrivateRoute>
-        }
-      />
-      <Route path="/test" element={<Navigate to="/auth/login" replace />} />
-      <Route path="/unauthorized" element={<UnauthorizedPage />} />
+      <Route path="student" element={<Layout />}>
+        <Route index element={<StudentDashboard />} />
+        <Route path="profile" element={<Profile />} />
+        <Route path="certifications" element={<Certification />} />
+        {/* Ajusta la ruta de Lesson según tus necesidades */}
+        <Route path="course/js/lesson/1" element={<Lesson />} />
+        <Route path="*" element={'Error 404'} />
+      </Route>
+      <Route path="support" element={<LayoutSupport />}>
+        <Route index element={<PrivateRoute roles={['support', 'admin']} element={<SupportDashboard />} />} />
+        <Route path='manage-users' element={<PrivateRoute roles={['support', 'admin']} element={<UserTable />} />} />
+        <Route path='manage-users/edit-user/:id' element={<PrivateRoute roles={['support', 'admin']} element={<EditUser />} />} />
+        <Route path="profile" element={<Profile />} />
+        <Route path="*" element={'Error 404'} />
+      </Route>
+      <Route path="admin" element={<LayoutAdmin />}>
+        <Route index element={<PrivateRoute roles={['admin']} element={<AdminDashboard />} />} />
+        <Route path='courses' element={<PrivateRoute roles={['admin']} element={<Admin />} />} />
+        <Route path='lessons' element={<PrivateRoute roles={['admin']} element={<TableLessons />} />} />
+        <Route path='manage-users' element={<PrivateRoute roles={['admin', 'support']} element={<UserTable />} />} />
+        <Route path='manage-users/edit-user/:id' element={<PrivateRoute roles={['support', 'admin']} element={<EditUser />} />} />
+        <Route path="profile" element={<Profile />} />
+        {/* <Route path="*" element={'Error 404'} /> */}
+      </Route>
+      <Route path="teacher" element={<Layout />}>
+        <Route index element={<PrivateRoute roles={['teacher']} element={<TeacherDashboard/>} />} />
+        <Route path='courses' element={<PrivateRoute roles={['admin', 'teacher']} element={<CoursesList />} />} />
+        <Route path='create-course' element={<PrivateRoute roles={['teacher', 'admin', 'support']} element={<CreateCourse />} />}/>
+        <Route path='courses/:course_id/create-lesson' element={<PrivateRoute roles={['teacher', 'support', 'admin']} element={<CreateLesson />} />} />
+        <Route path="profile" element={<Profile />} />
+        <Route path="*" element={'Error 404'} />
+      </Route>
     </Routes>
   );
 };
