@@ -16,8 +16,7 @@ const { authenticateToken } = require('../middlewares/authenticateToken');
 const { checkRole } = require('../middlewares/checkRole');
 
 // Public routes
-router.post('/register', createUser);
-
+router.post('/signup', createUser);
 
 router.post('/login', loginUser);
 
@@ -28,7 +27,7 @@ router.get('/', checkRole('admin', 'support', 'teacher'), getUsers);
 
 router.get('/:id', checkRole('admin', 'support', 'teacher', 'student'), getUserById);
 
-router.put('/:id', checkRole('admin', 'support', 'teacher', 'student'), updateUser);
+router.put('/:id', checkRole('admin', 'support', 'teacher', 'student'), updateUser); // /api/v1/users/:id
 
 router.put('/:id/role', checkRole('admin', 'support'), updateUserRole);
 

@@ -16,7 +16,7 @@ router.use(authenticateToken);
 
 router.get('/', checkRole('teacher', 'admin'), getAllStudentProgress)
 
-router.get('/:id', checkRole('teacher', 'admin', 'student'), getStudentProgressById)
+router.get('/:user_student_id', checkRole('teacher', 'admin', 'student'), getStudentProgressById)
 
 router.post('/', checkRole('teacher', 'admin', 'student'), createStudentProgress)
 

@@ -6,22 +6,23 @@ const {
     getCourses,
     getCourseById,
     updateCourse,
-    deleteCourse
+    deleteCourse,
 } = require('../controllers/courses.controller');
 
 const { authenticateToken } = require('../middlewares/authenticateToken');
 const { checkRole } = require('../middlewares/checkRole');
+const { upload } = require('../middlewares/multerMiddleware');
 
-router.use(authenticateToken, checkRole('teacher', 'admin'));
+// Middleware para autenticación y roles
+router.use(authenticateToken, checkRole('student', 'teacher', 'support', 'admin'));
 
-router.post('/create', createCourse);
+// Ruta para crear un curso con imagen adjunta
+router.post('/create', upload, createCourse);
 
+// Otras rutas para cursos
 router.get('/', getCourses);
-
 router.get('/:id', getCourseById);
-
 router.put('/:id', updateCourse);
-
-router.delete('/:id', deleteCourse)
+router.delete('/:id', deleteCourse);
 
 module.exports = router;

@@ -18,7 +18,7 @@ router.get('/', getLessons)
 
 router.get('/:id', getLessonById)
 
-router.post('/', createLesson)
+router.post('/', createLesson) // https://jp9dtqt5-3000.use2.devtunnels.ms/api/v1/lessons/
 
 router.put('/:id', updateLesson)
 

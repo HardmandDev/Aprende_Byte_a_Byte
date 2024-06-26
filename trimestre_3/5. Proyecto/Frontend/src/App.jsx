@@ -1,44 +1,30 @@
-import { Routes, Route } from 'react-router-dom';
-
-import Header from './components/common/Header';
-import Footer from './components/common/Footer';
-
-import Index from './components/guest/Index';
-import Profile from './pages/Profile';
-import Login from './components/guest/Login';
-
-import Courses from './components/guest/Courses';
-import Course from './components/guest/Course';
-import Admin from "./components/auth/admin-course/Admin";
-import ProfileStudent from "./components/student/ProfileStudent";
-import HomeSt from "./components/student/HomeSt";
-import ProfileStudent from "./pages/ProfileStudent";
-import HomeSt from "./pages/HomeSt";
-import Overview from "./components/auth/student/Overview";
-import Certifications from './components/auth/student/Certifications';
-
+import { ThemeProvider } from "@/components/theme-provider";
+import { AuthProvider } from './context/AuthContext';
+import { BrowserRouter } from 'react-router-dom';
+import PublicRoutes from './routes/PublicRoutes';
+import PrivateRoutes from "./routes/PrivateRoutes";
+// import StudentRoutes from './routes/StudentRoutes';
+// import TeacherRoutes from './routes/TeacherRoutes';
+// import SupportRoutes from './routes/SupportRoutes';
+// import AdminRoutes from './routes/AdminRoutes';
 
 function App() {
-
   return (
-    <>
-      <Header />
-      <Routes>
-        <Route path="/" element={<Index />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/sign-up" element={<Register />} />
-        <Route path="/courses" element={<Courses />} />
-        <Route path="/courses/js" element={<Course />} />
-        <Route path="/admin" element={<Admin />} />
-        <Route path="/profile-student" element={<ProfileStudent />} />
-        <Route path="/home-student" element={<HomeSt />} />
-        <Route path="/overview" element={<Overview />} />
-        <Route path="/certifications" element={<Certifications />} />
-      </Routes>
-      <Footer />
-    </>
-  )
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <AuthProvider>
+        <BrowserRouter>
+          <PublicRoutes />
+          <PrivateRoutes />
+          {/* 
+          <StudentRoutes />
+          <TeacherRoutes />
+          <SupportRoutes />
+          <AdminRoutes /> 
+          */}
+        </BrowserRouter>
+      </AuthProvider>
+    </ThemeProvider>
+  );
 }
 
-export default App
+export default App;

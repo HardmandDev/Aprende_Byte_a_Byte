@@ -1,5 +1,31 @@
 const pool = require('../db');
 
+
+
+const createCourse = async ({ user_teacher_id, course_name, description, image_url, level_id }) => {
+    try {
+        const result = await pool.query(
+            `
+            INSERT INTO courses (
+                user_teacher_id,
+                course_name, 
+                description, 
+                image_url,
+                level_id
+            ) 
+            VALUES ($1, $2, $3, $4, $5) 
+            RETURNING *
+            `,
+            [user_teacher_id, course_name, description, image_url, level_id]
+        );
+
+        return result.rows[0];
+    } catch (error) {
+        console.error('Error creating course:', error);
+        throw new Error('Error creating course: ' + error.message);
+    }
+};
+
 const getCourseById = async (id) => {
     const res = await pool.query(
         `
@@ -18,31 +44,6 @@ const getCourses = async () => {
         `
     )
     return res.rows;
-};
-
-// Used by the createCourse function of teacher.controller.js
-const createCourse = async (course) => {
-    const res = await pool.query(
-        `
-        INSERT INTO courses (
-            user_teacher_id,
-            course_name, 
-            description, 
-            image_url,
-            level_id
-        ) 
-        VALUES ($1, $2, $3, $4, $5) 
-        RETURNING *
-        `,
-        [
-            course.user_teacher_id,
-            course.course_name,
-            course.description,
-            course.image_url,
-            course.level_id
-        ]
-    );
-    return res.rows[0];
 };
 
 const updateCourse = async (course) => {
@@ -70,27 +71,23 @@ const updateCourse = async (course) => {
 };
 
 // Used by the updateStatusCourse function of admin.controller.js
-const updateStatusCourse = async (course) => {
+// aprobado = approved
+// rechazado = rejected
+// pendiente = pending
+const updateStatusCourse = async (courseId, courseData) => {
+    const { status, user_admin_id } = courseData;
     const client = await pool.connect();
+
     try {
         await client.query('BEGIN');
 
         await client.query(
-            `
-            UPDATE courses SET 
-                status = $1, 
-                user_admin_id = $2 
-            WHERE id = $3
-            `,
-            [
-                course.status,
-                course.user_admin_id,
-                course.id
-            ]
+            `UPDATE courses SET status = $1, user_admin_id = $2 WHERE id = $3`,
+            [status, user_admin_id, courseId]
         );
 
         await client.query('COMMIT');
-        return { id: course.id, status: course.status };
+        return { id: courseId, status };
 
     } catch (error) {
         await client.query('ROLLBACK');

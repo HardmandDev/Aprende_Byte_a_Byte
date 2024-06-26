@@ -1,13 +1,13 @@
 # Endpoints
 
 # Login:
-    http://localhost:3000/api/v1/login
+    https://jp9dtqt5-3000.use2.devtunnels.ms/api/v1/login
 # Register:
-    http://localhost:3000/api/v1/register
+    https://jp9dtqt5-3000.use2.devtunnels.ms/api/v1/register
 # Get user:
 
 # Update user:
-    http://localhost:3000/api/v1/users/:id
+    https://jp9dtqt5-3000.use2.devtunnels.ms/api/v1/users/:id
 # Delete user:
 
 # Get all users:

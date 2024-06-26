@@ -31,8 +31,8 @@ const getAllStudentProgress = async (req, res) => {
 
 const getStudentProgressById = async (req, res) => {
     try {
-        const { id } = req.params;
-        const studentProgress = await studentProgressModel.getStudentProgressById(id);
+        const { user_student_id } = req.params;
+        const studentProgress = await studentProgressModel.getStudentProgressById(user_student_id);
 
         if (studentProgress) {
             res.status(200).json(studentProgress);

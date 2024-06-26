@@ -4,11 +4,11 @@ const getStudentProgressById = async (id) => {
     const res = await pool.query(
         `
         SELECT * FROM student_progress
-        WHERE id = $1
+        WHERE user_student_id = $1
         `,
         [id]
     )
-    return res.rows[0]
+    return res.rows
 }
 
 const getAllStudentProgress = async () => {

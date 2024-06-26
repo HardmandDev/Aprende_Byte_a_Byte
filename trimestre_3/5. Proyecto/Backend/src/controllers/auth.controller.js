@@ -22,10 +22,11 @@ const loginUser = async (req, res) => {
         const token = generateToken(
             {
                 id: user.id,
-                role_id: user.role_id,
                 first_name: user.first_name,
                 last_name: user.last_name,
                 email: user.email,
+                role_id: user.role_id,
+                role: user.role,
             });
 
         res.json({ token });
